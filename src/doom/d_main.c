@@ -236,9 +236,6 @@ void D_Display (void)
 	break;
     }
     
-    // draw buffered stuff to screen
-    I_UpdateNoBlit ();
-    
     // draw the view directly
     if (gamestate == GS_LEVEL && !automapactive && gametic)
 	R_RenderPlayerView (&players[displayplayer]);
@@ -323,7 +320,6 @@ void D_Display (void)
 	wipestart = nowtime;
 	done = wipe_ScreenWipe(wipe_Melt
 			       , 0, 0, SCREENWIDTH, SCREENHEIGHT, tics);
-	I_UpdateNoBlit ();
 	M_Drawer ();                            // menu is drawn even on top of wipes
 	I_FinishUpdate ();                      // page flip or blit buffer
     } while (!done);
@@ -1126,7 +1122,8 @@ static void D_Endoom(void)
     // game has actually started.
 
     if (!show_endoom || !main_loop_started
-     || screensaver_mode || M_CheckParm("-testcontrols") > 0)
+     || screensaver_mode || M_CheckParm("-testcontrols") > 0
+     || M_CheckParm("-cdemo") > 0)
     {
         return;
     }
@@ -1545,6 +1542,12 @@ void D_DoomMain (void)
 
     }
 
+    if (!p)
+    {
+        // To load check demos
+        p = M_CheckParmWithArgs("-cdemo", 1);
+    }
+
     if (p)
     {
         char *uc_filename = strdup(myargv[p + 1]);
@@ -1883,6 +1886,14 @@ void D_DoomMain (void)
 	singledemo = true;              // quit after one demo
 	G_DeferedPlayDemo (demolumpname);
 	D_DoomLoop ();  // never returns
+    }
+
+    p = M_CheckParmWithArgs("-cdemo", 1);
+    if (p)
+    {
+    singledemo = true; // quit after one demo
+    G_CDemo(demolumpname);
+    D_DoomLoop(); // never returns
     }
 	
     p = M_CheckParmWithArgs("-timedemo", 1);

@@ -104,7 +104,6 @@ void I_ShutdownGraphics(void);
 void I_SetPalette (byte* palette);
 int I_GetPaletteIndex(int r, int g, int b);
 
-void I_UpdateNoBlit (void);
 void I_FinishUpdate (void);
 
 void I_ReadScreen (byte* scr);

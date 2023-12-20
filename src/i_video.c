@@ -224,10 +224,9 @@ boolean screenvisible;
 
 static boolean display_fps_dots;
 
-// If this is true, the screen is rendered but not blitted to the
-// video buffer.
+// If this is true, the dummy renderer will be used and no screen shown
 
-static boolean noblit;
+static boolean nographics;
 
 // Callback function to invoke to determine whether to grab the 
 // mouse pointer.
@@ -824,15 +823,6 @@ void I_StartTic (void)
     I_UpdateJoystick();
 }
 
-
-//
-// I_UpdateNoBlit
-//
-void I_UpdateNoBlit (void)
-{
-    // what is this?
-}
-
 static void UpdateGrab(void)
 {
     static boolean currently_grabbed = false;
@@ -921,7 +911,7 @@ void I_FinishUpdate (void)
     if (!initialized)
         return;
 
-    if (noblit)
+    if (nographics)
         return;
 
     if (need_resize && SDL_GetTicks() > last_resize_time + 500)
@@ -1430,13 +1420,10 @@ void I_GraphicsCheckCommandLine(void)
     int i;
 
     //!
-    // @category video
-    // @vanilla
-    //
-    // Disable blitting the screen.
+    // Disable graphics, use dummy renderer
     //
 
-    noblit = M_CheckParm ("-noblit");
+    nographics = M_CheckParm ("-nographics");
 
     //!
     // @category video 
@@ -1670,7 +1657,11 @@ static void SetSDLVideoDriver(void)
     // Allow a default value for the SDL video driver to be specified
     // in the configuration file.
 
-    if (strcmp(video_driver, "") != 0)
+    if (nographics)
+    {
+        putenv("SDL_VIDEODRIVER=dummy");
+    }
+    else if (strcmp(video_driver, "") != 0)
     {
         char *env_string;
 
@@ -1956,7 +1947,7 @@ void I_InitGraphics(void)
     // setting the screen mode, so that the game doesn't start immediately
     // with the player unable to see anything.
 
-    if (fullscreen && !screensaver_mode)
+    if (fullscreen && !screensaver_mode && !nographics)
     {
         SDL_Delay(startup_delay);
     }
