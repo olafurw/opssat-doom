@@ -1,0 +1,1 @@
+./src/chocolate-doom -nographics -nosound -nograbmouse -iwad demos/doom.wad -statdump x.txt -cdemo demos/e1m7-607
