@@ -1,7 +1,7 @@
-# corruption-doom
+# opssat-doom
 
 ```
-git clone https://github.com/olafurw/corruption-doom.git
+git clone https://github.com/olafurw/opssat-doom.git
 cd corruption-doom/
 ./build-full.sh
 ./test-run.sh
