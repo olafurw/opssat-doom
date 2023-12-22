@@ -1,0 +1,7 @@
+Package: exp272
+Priority: optional
+Maintainer: esoc
+Architecture: sepp
+Section: Applications
+Version: 1.0
+Description: DOOM is a 1993 first-person shooter. Will it run in space onboard the OPS-SAT-1 satellite computer?

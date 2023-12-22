@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "Installing experiment..."
+chown -R exp272:exp272 /home/exp272
+chmod -R 770 /home/exp272
+chmod +x /home/exp272/src/chocolate-doom
+echo "Installation completed."
