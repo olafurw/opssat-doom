@@ -1,4 +1,9 @@
-if [ -f "~/poky_sdk/environment-setup-cortexa8hf-neon-poky-linux-gnueabi" ]; then
+POKY_ENV=/home/user/poky_sdk/environment-setup-cortexa8hf-neon-poky-linux-gnueabi
+
+source $POKY_ENV;
+export PKG_CONFIG_PATH=/home/user/poky_sdk/tmp/sysroots/beaglebone/lib/pkgconfig:$PKG_CONFIG_PATH;
+
+if [ -f "$POKY_ENV" ]; then
     # Set and required flags and configure the target params
     export SDL_LIBS="-lSDL"
     export SDL_CFLAGS="-I/home/user/poky_sdk/tmp/sysroots/beaglebone/include/SDL/"
