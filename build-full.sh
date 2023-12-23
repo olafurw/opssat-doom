@@ -1,3 +1,7 @@
+export LANGUAGE=C;
+export LC_CTYPE=C;
+export LC_ALL=C;
+
 POKY_ENV=/home/user/poky_sdk/environment-setup-cortexa8hf-neon-poky-linux-gnueabi
 
 source $POKY_ENV;
