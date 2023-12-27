@@ -2,4 +2,6 @@
 toGround
 opssat-doom.map
 src/build/
-src/bin
+src/bin/
+src/output/
+output/
