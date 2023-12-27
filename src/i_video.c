@@ -161,9 +161,11 @@ void cmap_to_fb(uint8_t * out, uint8_t * in, int in_pixels)
         g = (uint16_t)(c.g >> (8 - s_Fb.green.length));
         b = (uint16_t)(c.b >> (8 - s_Fb.blue.length));
 
-        pix = r << s_Fb.red.offset;
+        // waage: swapped the offsets around so the 
+        // image rendering to file will look correct
+        pix = r << s_Fb.blue.offset;
         pix |= g << s_Fb.green.offset;
-        pix |= b << s_Fb.blue.offset;
+        pix |= b << s_Fb.red.offset;
 
         for (k = 0; k < fb_scaling; k++) {
             for (j = 0; j < s_Fb.bits_per_pixel/8; j++) {
