@@ -3,6 +3,9 @@
 # Define the list of demos
 demos="e1m7-607 impfight m1-fast m1-normal m1-simple"
 
+# Create the toGround folder if it doesn't exist
+mkdir -p toGround/
+
 # Loop through each demo
 for demo in $demos
 do
