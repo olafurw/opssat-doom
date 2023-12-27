@@ -1,46 +1,24 @@
-./src/chocolate-doom -nographics -nosound -nograbmouse -iwad demos/doom.wad -statdump compare.txt -cdemo demos/e1m7-607 2>&1 > /dev/null;
-if diff --strip-trailing-cr compare.txt demos/e1m7-607.txt; then
-    echo "OK - demos/e1m7-607";
-else
-    echo "ERROR - demos/e1m7-607";
-    rm compare.txt;
-    exit 1;
-fi
+#!/bin/sh
 
-./src/chocolate-doom -nographics -nosound -nograbmouse -iwad demos/doom.wad -statdump compare.txt -cdemo demos/impfight 2>&1 > /dev/null;
-if diff --strip-trailing-cr compare.txt demos/impfight.txt; then
-    echo "OK - demos/impfight";
-else
-    echo "ERROR - demos/impfight";
-    rm compare.txt;
-    exit 1;
-fi
+# Define the list of demos
+demos="e1m7-607 impfight m1-fast m1-normal m1-simple"
 
-./src/chocolate-doom -nographics -nosound -nograbmouse -iwad demos/doom.wad -statdump compare.txt -cdemo demos/m1-fast 2>&1 > /dev/null;
-if diff --strip-trailing-cr compare.txt demos/m1-fast.txt; then
-    echo "OK - demos/m1-fast";
-else
-    echo "ERROR - demos/m1-fast";
-    rm compare.txt;
-    exit 1;
-fi
+# Create the toGround folder if it doesn't exist
+mkdir -p toGround/
 
-./src/chocolate-doom -nographics -nosound -nograbmouse -iwad demos/doom.wad -statdump compare.txt -cdemo demos/m1-normal 2>&1 > /dev/null;
-if diff --strip-trailing-cr compare.txt demos/m1-normal.txt; then
-    echo "OK - demos/m1-normal";
-else
-    echo "ERROR - demos/m1-normal";
-    rm compare.txt;
-    exit 1;
-fi
+# Loop through each demo
+for demo in $demos
+do
+  # Run Chocolate Doom for each demo
+  echo -e "\n\n$(date +"%Y-%m-%d %H:%M:%S") Will OPS-SAT-1 run DOOM?\n" >> toGround/doom.log
+  timestamp=$(date +"%Y%m%d%H%M%S")
+  ./src/chocolate-doom -nographics -nosound -nograbmouse -iwad demos/doom.wad -statdump toGround/${demo}-output-${timestamp}.txt -cdemo demos/${demo} >> toGround/doom.log 2>&1
 
-./src/chocolate-doom -nographics -nosound -nograbmouse -iwad demos/doom.wad -statdump compare.txt -cdemo demos/m1-simple 2>&1 > /dev/null;
-if diff --strip-trailing-cr compare.txt demos/m1-simple.txt; then
-    echo "OK - demos/m1-simple";
-else
-    echo "ERROR - demos/m1-simple";
-    rm compare.txt;
-    exit 1;
-fi
+  # Check the output
+  if diff toGround/${demo}-output-${timestamp}.txt demos/${demo}.txt; then
+    echo "$(date +"%Y-%m-%d %H:%M:%S") OK - demos/${demo}" >> toGround/summary.log
+  else
+    echo "$(date +"%Y-%m-%d %H:%M:%S") ERROR - demos/${demo}" >> toGround/summary.log
+  fi
+done
 
-rm compare.txt;

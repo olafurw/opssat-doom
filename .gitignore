@@ -40,4 +40,6 @@ tags
 
 # extras
 .vscode
+deploy
 SDL*
+toGround

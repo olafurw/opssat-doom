@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Create the experiment user if does not exist already.
+# User could already exist if this is an upgrade instead of a fresh installation.
+if ! (id -u exp272 >/dev/null 2>&1); then
+  useradd exp272 -m -d /home/exp272 -s /bin/sh
+  passwd -l exp272
+fi
