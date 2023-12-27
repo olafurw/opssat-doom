@@ -4,4 +4,7 @@ echo "Installing experiment..."
 chown -R exp272:exp272 /home/exp272
 chmod -R 770 /home/exp272
 chmod +x /home/exp272/src/chocolate-doom
+ln -s /home/exp272/lib/libSDL-1.2.so.0 /lib/libSDL-1.2.so.0
+ln -s /home/exp272/lib/libSDL_mixer-1.2.so.0 /lib/libSDL_mixer-1.2.so.0
+ln -s /home/exp272/lib/libSDL_net-1.2.so.0 /lib/libSDL_net-1.2.so.0
 echo "Installation completed."
