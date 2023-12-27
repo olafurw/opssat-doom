@@ -1,5 +1,5 @@
 .vscode
 toGround
 opssat-doom.map
-src/build/*
+src/build/
 src/bin
