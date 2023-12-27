@@ -2105,7 +2105,7 @@ void G_BeginRecording (void)
 char*	defdemoname; 
  
 void G_DeferedPlayDemo (char* name) 
-{ 
+{
     defdemoname = name; 
     gameaction = ga_playdemo; 
 } 
@@ -2230,7 +2230,7 @@ void G_TimeDemo (char* name)
     timingdemo = true; 
     singletics = true; 
 
-    defdemoname = name; 
+    defdemoname = name;
     gameaction = ga_playdemo; 
 } 
  
@@ -2267,8 +2267,8 @@ boolean G_CheckDemoStatus (void)
     } 
 	 
     if (demoplayback) 
-    { 
-        W_ReleaseLumpName(defdemoname);
+    {
+        //W_ReleaseLumpName(defdemoname);
 	demoplayback = false; 
 	netdemo = false;
 	netgame = false;
