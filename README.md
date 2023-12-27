@@ -1,13 +1,7 @@
 # opssat-doom
 
-```
-git clone https://github.com/olafurw/opssat-doom.git
-cd opssat-doom/
-./setup.sh
-./build-full.sh
-./test-run.sh
-```
+DOOM in Space.
 
 ### Source Ports
 
-Based on [Chocolate Doom 2.3.0](https://github.com/chocolate-doom/chocolate-doom)
+Based on [doomgeneric](https://github.com/ozkl/doomgeneric)

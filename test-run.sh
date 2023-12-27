@@ -4,6 +4,7 @@
 demos="e1m7-607 impfight m1-fast m1-normal m1-simple"
 
 # Create the toGround folder if it doesn't exist
+rm -rf toGround/
 mkdir -p toGround/
 
 # Loop through each demo
@@ -22,3 +23,4 @@ do
   fi
 done
 
+cat toGround/summary.log
