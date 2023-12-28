@@ -11,11 +11,16 @@ else
 	VB=@
 endif
 
+ifndef CC
+	CC=cc
+endif
 
-CC=clang  # gcc or g++
-CFLAGS+=-ggdb3 -Os
+ifdef M32
+	CFLAGS+=-m32
+endif
+
 LDFLAGS+=-Wl,--gc-sections
-CFLAGS+=-ggdb3 -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
+CFLAGS+=-ggdb3 -Os -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
 LIBS+=-lm -lc -lX11
 
 # subdirectory for objects
