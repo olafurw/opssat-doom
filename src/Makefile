@@ -15,10 +15,6 @@ ifndef CC
 	CC=cc
 endif
 
-ifdef M32
-	CFLAGS+=-m32
-endif
-
 LDFLAGS+=-Wl,--gc-sections
 CFLAGS+=-ggdb3 -Os -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
 LIBS+=-lm -lc -lX11
