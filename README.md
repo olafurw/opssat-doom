@@ -1,6 +1,6 @@
 # opssat-doom
 
-Experiment with the ESA to run Doom in Space on the [OPS-SAT satellite](https://www.esa.int/Enabling_Support/Operations/OPS-SAT).
+Experiment with the European Space Agency (ESA) to run Doom in Space onboard the [OPS-SAT satellite](https://www.esa.int/Enabling_Support/Operations/OPS-SAT).
 
 ### Events
 
@@ -25,7 +25,7 @@ git clone https://github.com/olafurw/opssat-doom.git
 cd opssat-doom/
 ./setup.sh
 ./build-full.sh
-./test-run.sh
+./start_exp272.sh
 ```
 
 ### Source Ports
