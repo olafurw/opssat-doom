@@ -82,11 +82,13 @@ cp ${bin_doom} ${deploy_exp_dir}/src
 # The demo files.
 cp -r demos ${deploy_exp_dir}/
 
-# The test script.
-cp test-run.sh ${deploy_exp_dir}/
+# The start and stop scripts.
+cp start_${PKG_NAME}.sh ${deploy_exp_dir}/
+cp stop_${PKG_NAME}.sh ${deploy_exp_dir}/
+
 
 # Replace relative paths in the test script with full paths in the spacecraft payload computer's file system.
-sed -i "s|\./src/chocolate-doom|${target_dir}/src/chocolate-doom|g; s|demos/|${target_dir}/demos/|g; s|toGround/|${target_dir}/toGround/|g" ${deploy_exp_dir}/test-run.sh
+sed -i "s|\./src/chocolate-doom|${target_dir}/src/chocolate-doom|g; s|demos/|${target_dir}/demos/|g; s|toGround/|${target_dir}/toGround/|g" ${deploy_exp_dir}/start_${PKG_NAME}.sh
 
 # Create the toGround directory.
 mkdir ${deploy_exp_dir}/toGround
