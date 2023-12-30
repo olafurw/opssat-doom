@@ -4,7 +4,7 @@ Experiment with the European Space Agency (ESA) to run Doom in Space onboard the
 
 ### Events
 
-**2023-12-28 18:16:40** - Doom runs on OPS-SAT (initial demo checks)
+**2023-12-28 18:16:36 (UTC)** — Doom runs on OPS-SAT (initial demo checks).
 
 <img src="https://github.com/olafurw/opssat-doom/assets/103783/8b2ece4b-bb92-4694-9655-9debc2569c2e" alt="doom-demo-tests" width="600" />
 
