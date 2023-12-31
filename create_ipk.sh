@@ -9,6 +9,8 @@ project_dir=$(pwd)
 
 # The files that will be packaged into the ipk.
 bin_doom=${project_dir}/src/chocolate-doom
+seu_simulator=${project_dir}/simulate_seu.py
+seu_simulator_test=${project_dir}/test_simulate_seu.py
 
 # Check that the required files exist.
 if [ ! -f "$bin_doom" ]; then
@@ -40,7 +42,6 @@ deploy_dir=${project_dir}/deploy
 deploy_exp_dir=${deploy_dir}/${target_dir}
 deploy_exp_lib_dir=${deploy_exp_dir}/lib
 
-
 # Clean and initialize the deploy folder.
 rm -rf ${deploy_dir}
 mkdir -p ${deploy_exp_lib_dir}
@@ -58,7 +59,8 @@ elif [ "$1" == "em" ]; then
   IPK_FILENAME=${PKG_NAME}_${PKG_VER}_${PKG_ARCH}_em.ipk
   echo "Create ${IPK_FILENAME} for the EM"
 
-  # TODO (Optional): Copy into ${deploy_exp_dir} any EM specific files.
+  # Copy into ${deploy_exp_dir} any EM specific files.
+  cp ${seu_simulator_test} ${deploy_exp_dir}/
 
 else
   # If not deploying for spacecraft nor the EM then an invalid parameter was given.
@@ -75,6 +77,9 @@ cp /home/user/poky_sdk/tmp/sysroots/beaglebone/lib/libSDL_net-1.2.so.0 ${deploy_
 
 # Copy into ${deploy_exp_dir} core project files that are required for both EM and spacecraft deployments.
 
+# The SEU simulator
+cp ${seu_simulator} ${deploy_exp_dir}/
+
 # The executable binary.
 mkdir ${deploy_exp_dir}/src
 cp ${bin_doom} ${deploy_exp_dir}/src
@@ -86,9 +91,8 @@ cp -r demos ${deploy_exp_dir}/
 cp start_${PKG_NAME}.sh ${deploy_exp_dir}/
 cp stop_${PKG_NAME}.sh ${deploy_exp_dir}/
 
-
 # Replace relative paths in the test script with full paths in the spacecraft payload computer's file system.
-sed -i "s|\./src/chocolate-doom|${target_dir}/src/chocolate-doom|g; s|demos/|${target_dir}/demos/|g; s|toGround/|${target_dir}/toGround/|g" ${deploy_exp_dir}/start_${PKG_NAME}.sh
+sed -i "s|\./simulate_seu.py|${target_dir}/simulate_seu.py|g; s|\./src/chocolate-doom|${target_dir}/src/chocolate-doom|g; s|\./lib|${target_dir}/lib|g; s|demos/|${target_dir}/demos/|g; s|toGround/|${target_dir}/toGround/|g" ${deploy_exp_dir}/start_${PKG_NAME}.sh
 
 # Create the toGround directory.
 mkdir ${deploy_exp_dir}/toGround
