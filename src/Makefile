@@ -16,7 +16,7 @@ ifndef CC
 endif
 
 LDFLAGS+=-Wl,--gc-sections
-CFLAGS+=-ggdb3 -Os -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
+CFLAGS+=-static -ggdb3 -Os -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
 LIBS+=-lm -lc
 
 # subdirectory for objects

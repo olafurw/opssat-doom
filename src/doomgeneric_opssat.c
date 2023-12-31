@@ -19,10 +19,13 @@ void DG_Init()
 
 void DG_DrawFrame()
 {
-    char* filename = (char*)malloc(24 * sizeof(char));
-    sprintf(filename, "output/output%06d.bmp", frames);
-    stbi_write_bmp(filename, DOOMGENERIC_RESX, DOOMGENERIC_RESY, 4, DG_ScreenBuffer);
-    free(filename);
+    if (frames % 50 == 0)
+    {
+        char* filename = (char*)malloc(24 * sizeof(char));
+        sprintf(filename, "output/output%06d.jpg", frames);
+        stbi_write_jpg(filename, DOOMGENERIC_RESX, DOOMGENERIC_RESY, 4, DG_ScreenBuffer, 100);
+        free(filename);
+    }
 
     frames++;
 }
