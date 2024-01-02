@@ -23,7 +23,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
-#include <assert.h>
 
 #include "config.h"
 
@@ -65,11 +64,7 @@ typedef struct
     char *name;
 
     // Pointer to the location in memory of the variable
-    union {
-        int *i;
-        char **s;
-        float *f;
-    } location;
+    void *location;
 
     // Type of the variable
     default_type_t type;
@@ -98,7 +93,7 @@ typedef struct
 } default_collection_t;
 
 #define CONFIG_VARIABLE_GENERIC(name, type) \
-    { #name, {NULL}, type, 0, 0, false }
+    { #name, NULL, type, 0, 0, false }
 
 #define CONFIG_VARIABLE_KEY(name) \
     CONFIG_VARIABLE_GENERIC(name, DEFAULT_KEY)
@@ -809,27 +804,12 @@ static default_t extra_defaults_list[] =
     CONFIG_VARIABLE_INT(snd_maxslicetime_ms),
 
     //!
-    // If non-zero, sound effects will have their pitch varied up or
-    // down by a random amount during play. If zero, sound effects
-    // play back at their default pitch. The default is zero.
-    //
-
-    CONFIG_VARIABLE_INT(snd_pitchshift),
-
-    //!
     // External command to invoke to perform MIDI playback. If set to
     // the empty string, SDL_mixer's internal MIDI playback is used.
     // This only has any effect when snd_musicdevice is set to General
     // MIDI output.
 
     CONFIG_VARIABLE_STRING(snd_musiccmd),
-
-    //!
-    // Value to set for the DMXOPTION environment variable. If this contains
-    // "-opl3", output for an OPL3 chip is generated when in OPL MIDI
-    // playback mode.
-    //
-    CONFIG_VARIABLE_STRING(snd_dmxoption),
 
     //!
     // The I/O port to use to access the OPL chip.  Only relevant when
@@ -846,15 +826,6 @@ static default_t extra_defaults_list[] =
     //
 
     CONFIG_VARIABLE_INT(show_endoom),
-
-    //!
-    // @game doom strife
-    //
-    // If non-zero, a disk activity indicator is displayed when data is read
-    // from disk. If zero, the disk activity indicator is not displayed.
-    //
-
-    CONFIG_VARIABLE_INT(show_diskicon),
 
     //!
     // If non-zero, save screenshots in PNG format.
@@ -1033,13 +1004,6 @@ static default_t extra_defaults_list[] =
     CONFIG_VARIABLE_INT(joystick_physical_button9),
 
     //!
-    // The physical joystick button that corresponds to joystick
-    // virtual button #10.
-    //
-
-    CONFIG_VARIABLE_INT(joystick_physical_button10),
-
-    //!
     // Joystick virtual button to make the player strafe left.
     //
 
@@ -1056,12 +1020,6 @@ static default_t extra_defaults_list[] =
     //
 
     CONFIG_VARIABLE_INT(joyb_menu_activate),
-
-    //!
-    // Joystick virtual button to toggle the automap.
-    //
-
-    CONFIG_VARIABLE_INT(joyb_toggle_automap),
 
     //!
     // Joystick virtual button that cycles to the previous weapon.
@@ -1650,6 +1608,7 @@ static const int scantokey[128] =
 
 static void SaveDefaultCollection(default_collection_t *collection)
 {
+#if ORIGCODE
     default_t *defaults;
     int i, v;
     FILE *f;
@@ -1688,7 +1647,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 // the possibility of screwing up the user's config
                 // file
                 
-                v = *defaults[i].location.i;
+                v = * (int *) defaults[i].location;
 
                 if (v == KEY_RSHIFT)
                 {
@@ -1729,19 +1688,19 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 break;
 
             case DEFAULT_INT:
-	        fprintf(f, "%i", *defaults[i].location.i);
+	        fprintf(f, "%i", * (int *) defaults[i].location);
                 break;
 
             case DEFAULT_INT_HEX:
-	        fprintf(f, "0x%x", *defaults[i].location.i);
+	        fprintf(f, "0x%x", * (int *) defaults[i].location);
                 break;
 
             case DEFAULT_FLOAT:
-                fprintf(f, "%f", *defaults[i].location.f);
+                fprintf(f, "%f", * (float *) defaults[i].location);
                 break;
 
             case DEFAULT_STRING:
-	        fprintf(f,"\"%s\"", *defaults[i].location.s);
+	        fprintf(f,"\"%s\"", * (char **) (defaults[i].location));
                 break;
         }
 
@@ -1749,6 +1708,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
     }
 
     fclose (f);
+#endif
 }
 
 // Parses integer values in the configuration file
@@ -1774,12 +1734,12 @@ static void SetVariable(default_t *def, char *value)
     switch (def->type)
     {
         case DEFAULT_STRING:
-            *def->location.s = M_StringDuplicate(value);
+            * (char **) def->location = strdup(value);
             break;
 
         case DEFAULT_INT:
         case DEFAULT_INT_HEX:
-            *def->location.i = ParseIntParameter(value);
+            * (int *) def->location = ParseIntParameter(value);
             break;
 
         case DEFAULT_KEY:
@@ -1799,17 +1759,18 @@ static void SetVariable(default_t *def, char *value)
             }
 
             def->original_translated = intparm;
-            *def->location.i = intparm;
+            * (int *) def->location = intparm;
             break;
 
         case DEFAULT_FLOAT:
-            *def->location.f = (float) atof(value);
+            * (float *) def->location = (float) atof(value);
             break;
     }
 }
 
 static void LoadDefaultCollection(default_collection_t *collection)
 {
+#if ORIGCODE
     FILE *f;
     default_t *def;
     char defname[80];
@@ -1867,6 +1828,7 @@ static void LoadDefaultCollection(default_collection_t *collection)
     }
 
     fclose (f);
+#endif
 }
 
 // Set the default filenames to use for configuration files.
@@ -1999,38 +1961,13 @@ static default_t *GetDefaultForName(char *name)
 // Bind a variable to a given configuration file variable, by name.
 //
 
-void M_BindIntVariable(char *name, int *location)
+void M_BindVariable(char *name, void *location)
 {
     default_t *variable;
 
     variable = GetDefaultForName(name);
-    assert(variable->type == DEFAULT_INT
-        || variable->type == DEFAULT_INT_HEX
-        || variable->type == DEFAULT_KEY);
 
-    variable->location.i = location;
-    variable->bound = true;
-}
-
-void M_BindFloatVariable(char *name, float *location)
-{
-    default_t *variable;
-
-    variable = GetDefaultForName(name);
-    assert(variable->type == DEFAULT_FLOAT);
-
-    variable->location.f = location;
-    variable->bound = true;
-}
-
-void M_BindStringVariable(char *name, char **location)
-{
-    default_t *variable;
-
-    variable = GetDefaultForName(name);
-    assert(variable->type == DEFAULT_STRING);
-
-    variable->location.s = location;
+    variable->location = location;
     variable->bound = true;
 }
 
@@ -2067,10 +2004,10 @@ int M_GetIntVariable(char *name)
         return 0;
     }
 
-    return *variable->location.i;
+    return *((int *) variable->location);
 }
 
-const char *M_GetStringVariable(char *name)
+const char *M_GetStrVariable(char *name)
 {
     default_t *variable;
 
@@ -2082,7 +2019,7 @@ const char *M_GetStringVariable(char *name)
         return NULL;
     }
 
-    return *variable->location.s;
+    return *((const char **) variable->location);
 }
 
 float M_GetFloatVariable(char *name)
@@ -2097,7 +2034,7 @@ float M_GetFloatVariable(char *name)
         return 0;
     }
 
-    return *variable->location.f;
+    return *((float *) variable->location);
 }
 
 // Get the path to the default configuration dir to use, if NULL
@@ -2105,32 +2042,11 @@ float M_GetFloatVariable(char *name)
 
 static char *GetDefaultConfigDir(void)
 {
-#if !defined(_WIN32) || defined(_WIN32_WCE)
+    char *result = (char *)malloc(2);
+    result[0] = '.';
+    result[1] = '\0';
 
-    // Configuration settings are stored in ~/.chocolate-doom/,
-    // except on Windows, where we behave like Vanilla Doom and
-    // save in the current directory.
-
-    char *homedir;
-    char *result;
-
-    homedir = getenv("HOME");
-
-    if (homedir != NULL)
-    {
-        // put all configuration in a config directory off the
-        // homedir
-
-        result = M_StringJoin(homedir, DIR_SEPARATOR_S,
-                              "." PACKAGE_TARNAME, DIR_SEPARATOR_S, NULL);
-
-        return result;
-    }
-    else
-#endif /* #ifndef _WIN32 */
-    {
-        return M_StringDuplicate("");
-    }
+    return result;
 }
 
 // 
@@ -2171,20 +2087,23 @@ void M_SetConfigDir(char *dir)
 char *M_GetSaveGameDir(char *iwadname)
 {
     char *savegamedir;
+#if ORIGCODE
     char *topdir;
+#endif
 
     // If not "doing" a configuration directory (Windows), don't "do"
     // a savegame directory, either.
 
     if (!strcmp(configdir, ""))
     {
-	savegamedir = M_StringDuplicate("");
+    	savegamedir = strdup("");
     }
     else
     {
+#if ORIGCODE
         // ~/.chocolate-doom/savegames
 
-        topdir = M_StringJoin(configdir, "savegames", NULL);
+        topdir = M_StringJoin(configdir, "savegame", NULL);
         M_MakeDirectory(topdir);
 
         // eg. ~/.chocolate-doom/savegames/doom2.wad/
@@ -2195,6 +2114,13 @@ char *M_GetSaveGameDir(char *iwadname)
         M_MakeDirectory(savegamedir);
 
         free(topdir);
+#else
+        savegamedir = M_StringJoin(configdir, DIR_SEPARATOR_S, ".savegame/", NULL);
+
+        M_MakeDirectory(savegamedir);
+
+        printf ("Using %s for savegames\n", savegamedir);
+#endif
     }
 
     return savegamedir;

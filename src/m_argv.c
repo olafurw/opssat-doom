@@ -74,6 +74,7 @@ int M_CheckParm(char *check)
 
 static void LoadResponseFile(int argv_index)
 {
+#if ORIGCODE
     FILE *handle;
     int size;
     char *infile;
@@ -91,7 +92,9 @@ static void LoadResponseFile(int argv_index)
     if (handle == NULL)
     {
         printf ("\nNo such response file!");
+#if ORIGCODE
         exit(1);
+#endif
     }
 
     printf("Found response file %s!\n", response_filename);
@@ -142,7 +145,7 @@ static void LoadResponseFile(int argv_index)
     {
         // Skip past space characters to the next argument
 
-        while(k < size && isspace(infile[k]))
+        while(k < size && isspace((int)infile[k]))
         {
             ++k;
         }
@@ -187,7 +190,7 @@ static void LoadResponseFile(int argv_index)
 
             newargv[newargc++] = &infile[k];
 
-            while(k < size && !isspace(infile[k]))
+            while(k < size && !isspace((int)infile[k]))
             {
                 ++k;
             }
@@ -221,6 +224,7 @@ static void LoadResponseFile(int argv_index)
     {
         printf("'%s'\n", myargv[k]);
     }
+#endif
 #endif
 }
 

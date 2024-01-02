@@ -104,6 +104,7 @@ void I_ShutdownGraphics(void);
 void I_SetPalette (byte* palette);
 int I_GetPaletteIndex(int r, int g, int b);
 
+void I_UpdateNoBlit (void);
 void I_FinishUpdate (void);
 
 void I_ReadScreen (byte* scr);
@@ -133,7 +134,9 @@ void I_StartTic (void);
 
 // Enable the loading disk image displayed when reading from disk.
 
-void I_EnableLoadingDisk(int xoffs, int yoffs);
+void I_EnableLoadingDisk(void);
+
+void I_EndRead (void);
 
 extern char *video_driver;
 extern boolean screenvisible;
@@ -150,5 +153,8 @@ extern int screen_height;
 extern int screen_bpp;
 extern int fullscreen;
 extern int aspect_ratio_correct;
+
+extern int show_diskicon;
+extern int diskicon_readbytes;
 
 #endif

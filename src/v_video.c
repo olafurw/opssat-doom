@@ -110,7 +110,7 @@ void V_CopyRect(int srcx, int srcy, byte *source,
 
     for ( ; height>0 ; height--) 
     { 
-        memcpy(dest, src, width * sizeof(*dest));
+        memcpy(dest, src, width); 
         src += SCREENWIDTH; 
         dest += SCREENWIDTH; 
     } 
@@ -162,7 +162,7 @@ void V_DrawPatch(int x, int y, patch_t *patch)
      || y < 0
      || y + SHORT(patch->height) > SCREENHEIGHT)
     {
-        I_Error("Bad V_DrawPatch");
+        I_Error("Bad V_DrawPatch x=%i y=%i patch.width=%i patch.height=%i topoffset=%i leftoffset=%i", x, y, patch->width, patch->height, patch->topoffset, patch->leftoffset);
     }
 #endif
 
@@ -520,7 +520,7 @@ void V_DrawBlock(int x, int y, int width, int height, byte *src)
 
     while (height--) 
     { 
-	memcpy (dest, src, width * sizeof(*dest));
+	memcpy (dest, src, width); 
 	src += width; 
 	dest += SCREENWIDTH; 
     } 
@@ -672,7 +672,6 @@ void WritePCXfile(char *filename, byte *data,
     pcx->hres = SHORT(width);
     pcx->vres = SHORT(height);
     memset (pcx->palette,0,sizeof(pcx->palette));
-    pcx->reserved = 0;                  // PCX spec: reserved byte must be zero
     pcx->color_planes = 1;		// chunky image
     pcx->bytes_per_line = SHORT(width);
     pcx->palette_type = SHORT(2);	// not a grey scale
@@ -720,20 +719,14 @@ static void warning_fn(png_structp p, png_const_charp s)
 }
 
 void WritePNGfile(char *filename, byte *data,
-                  int inwidth, int inheight,
+                  int width, int height,
                   byte *palette)
 {
     png_structp ppng;
     png_infop pinfo;
     png_colorp pcolor;
     FILE *handle;
-    int i, j;
-    int width, height;
-    byte *rowbuf;
-
-    // scale up to accommodate aspect ratio correction
-    width = inwidth * 5;
-    height = inheight * 6;
+    int i;
 
     handle = fopen(filename, "wb");
     if (!handle)
@@ -780,26 +773,9 @@ void WritePNGfile(char *filename, byte *data,
 
     png_write_info(ppng, pinfo);
 
-    rowbuf = malloc(width);
-
-    if (rowbuf)
+    for (i = 0; i < SCREENHEIGHT; i++)
     {
-        for (i = 0; i < SCREENHEIGHT; i++)
-        {
-            // expand the row 5x
-            for (j = 0; j < SCREENWIDTH; j++)
-            {
-                memset(rowbuf + j * 5, *(data + i*SCREENWIDTH + j), 5);
-            }
-
-            // write the row 6 times
-            for (j = 0; j < 6; j++)
-            {
-                png_write_row(ppng, rowbuf);
-            }
-        }
-
-        free(rowbuf);
+        png_write_row(ppng, data + i*SCREENWIDTH);
     }
 
     png_write_end(ppng, pinfo);
@@ -867,18 +843,6 @@ void V_ScreenShot(char *format)
 #define MOUSE_SPEED_BOX_WIDTH  120
 #define MOUSE_SPEED_BOX_HEIGHT 9
 
-//
-// V_DrawMouseSpeedBox
-//
-
-// If box is only to calibrate speed, testing relative speed (as a measure
-// of game pixels to movement units) is important whether physical mouse DPI
-// is high or low. Line resolution starts at 1 pixel per 1 move-unit: if
-// line maxes out, resolution becomes 1 pixel per 2 move-units, then per
-// 3 move-units, etc.
-
-static int linelen_multiplier = 1;
-
 void V_DrawMouseSpeedBox(int speed)
 {
     extern int usemouse;
@@ -887,8 +851,6 @@ void V_DrawMouseSpeedBox(int speed)
     int original_speed;
     int redline_x;
     int linelen;
-    int i;
-    boolean draw_acceleration = false;
 
     // Get palette indices for colors for widget. These depend on the
     // palette of the game being played.
@@ -900,17 +862,12 @@ void V_DrawMouseSpeedBox(int speed)
     yellow = I_GetPaletteIndex(0xff, 0xff, 0x00);
     white = I_GetPaletteIndex(0xff, 0xff, 0xff);
 
-    // If the mouse is turned off, don't draw the box at all.
-    if (!usemouse)
+    // If the mouse is turned off or acceleration is turned off, don't
+    // draw the box at all.
+
+    if (!usemouse || fabs(mouse_acceleration - 1) < 0.01)
     {
         return;
-    }
-
-    // If acceleration is used, draw a box that helps to calibrate the
-    // threshold point.
-    if (mouse_threshold > 0 && fabs(mouse_acceleration - 1) > 0.01)
-    {
-        draw_acceleration = true;
     }
 
     // Calculate box position
@@ -923,44 +880,41 @@ void V_DrawMouseSpeedBox(int speed)
     V_DrawBox(box_x, box_y,
               MOUSE_SPEED_BOX_WIDTH, MOUSE_SPEED_BOX_HEIGHT, bordercolor);
 
-    // Calculate the position of the red threshold line when calibrating
-    // acceleration.  This is 1/3 of the way along the box.
+    // Calculate the position of the red line.  This is 1/3 of the way
+    // along the box.
 
     redline_x = MOUSE_SPEED_BOX_WIDTH / 3;
 
-    // Calculate line length
+    // Undo acceleration and get back the original mouse speed
 
-    if (draw_acceleration && speed >= mouse_threshold)
+    if (speed < mouse_threshold)
     {
-        // Undo acceleration and get back the original mouse speed
-        original_speed = speed - mouse_threshold;
-        original_speed = (int) (original_speed / mouse_acceleration);
-        original_speed += mouse_threshold;
-
-        linelen = (original_speed * redline_x) / mouse_threshold;
+        original_speed = speed;
     }
     else
     {
-        linelen = speed / linelen_multiplier;
+        original_speed = speed - mouse_threshold;
+        original_speed = (int) (original_speed / mouse_acceleration);
+        original_speed += mouse_threshold;
     }
+
+    // Calculate line length
+
+    linelen = (original_speed * redline_x) / mouse_threshold;
 
     // Draw horizontal "thermometer" 
 
     if (linelen > MOUSE_SPEED_BOX_WIDTH - 1)
     {
         linelen = MOUSE_SPEED_BOX_WIDTH - 1;
-        if (!draw_acceleration)
-        {
-            linelen_multiplier++;
-        }
     }
 
     V_DrawHorizLine(box_x + 1, box_y + 4, MOUSE_SPEED_BOX_WIDTH - 2, black);
 
-    if (!draw_acceleration || linelen < redline_x)
+    if (linelen < redline_x)
     {
         V_DrawHorizLine(box_x + 1, box_y + MOUSE_SPEED_BOX_HEIGHT / 2,
-                        linelen, white);
+                      linelen, white);
     }
     else
     {
@@ -970,21 +924,9 @@ void V_DrawMouseSpeedBox(int speed)
                         linelen - redline_x, yellow);
     }
 
-    if (draw_acceleration)
-    {
-        // Draw acceleration threshold line
-        V_DrawVertLine(box_x + redline_x, box_y + 1,
-                       MOUSE_SPEED_BOX_HEIGHT - 2, red);
-    }
-    else
-    {
-        // Draw multiplier lines to indicate current resolution
-        for (i = 1; i < linelen_multiplier; i++)
-        {
-            V_DrawVertLine(
-                box_x + (i * MOUSE_SPEED_BOX_WIDTH / linelen_multiplier),
-                box_y + 1, MOUSE_SPEED_BOX_HEIGHT - 2, yellow);
-        }
-    }
+    // Draw red line
+
+    V_DrawVertLine(box_x + redline_x, box_y + 1,
+                 MOUSE_SPEED_BOX_HEIGHT - 2, red);
 }
 

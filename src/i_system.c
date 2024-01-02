@@ -30,7 +30,9 @@
 #include <unistd.h>
 #endif
 
+#ifdef ORIGCODE
 #include "SDL.h"
+#endif
 
 #include "config.h"
 
@@ -53,8 +55,8 @@
 #include <CoreFoundation/CFUserNotification.h>
 #endif
 
-#define DEFAULT_RAM 16 /* MiB */
-#define MIN_RAM     4  /* MiB */
+#define DEFAULT_RAM 6 /* MiB */
+#define MIN_RAM     6  /* MiB */
 
 
 typedef struct atexit_listentry_s atexit_listentry_t;
@@ -211,7 +213,11 @@ boolean I_ConsoleStdout(void)
     // SDL "helpfully" always redirects stdout to a file.
     return 0;
 #else
+#if ORIGCODE
     return isatty(fileno(stdout));
+#else
+	return 0;
+#endif
 #endif
 }
 
@@ -250,8 +256,6 @@ void I_Quit (void)
         entry->func();
         entry = entry->next;
     }
-
-    SDL_Quit();
 
     exit(0);
 }
@@ -358,7 +362,9 @@ void I_Error (char *error, ...)
     if (already_quitting)
     {
         fprintf(stderr, "Warning: recursive call to I_Error detected.\n");
+#if ORIGCODE
         exit(-1);
+#endif
     }
     else
     {
@@ -445,10 +451,15 @@ void I_Error (char *error, ...)
 #endif
 
     // abort();
-
+#if ORIGCODE
     SDL_Quit();
 
     exit(-1);
+#else
+    while (true)
+    {
+    }
+#endif
 }
 
 //

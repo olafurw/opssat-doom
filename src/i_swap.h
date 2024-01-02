@@ -20,7 +20,9 @@
 #ifndef __I_SWAP__
 #define __I_SWAP__
 
-#include "SDL_endian.h"
+#ifdef FEATURE_SOUND
+
+#include <SDL_endian.h>
 
 // Endianess handling.
 // WAD files are stored little endian.
@@ -35,9 +37,32 @@
 
 // Defines for checking the endianness of the system.
 
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+#if SDL_BYTEORDER == SYS_LIL_ENDIAN
+#define SYS_LITTLE_ENDIAN
+#elif SDL_BYTEORDER == SYS_BIG_ENDIAN
 #define SYS_BIG_ENDIAN
 #endif
+
+// cosmito from lsdldoom
+#define doom_swap_s(x) \
+        ((short int)((((unsigned short int)(x) & 0x00ff) << 8) | \
+                              (((unsigned short int)(x) & 0xff00) >> 8))) 
+
+
+#if ( SDL_BYTEORDER == SDL_BIG_ENDIAN )
+#define doom_wtohs(x) doom_swap_s(x)
+#else
+#define doom_wtohs(x) (short int)(x)
+#endif
+
+#else
+	
+#define SHORT(x)  ((signed short) (x))
+#define LONG(x)   ((signed int) (x))
+
+#define SYS_LITTLE_ENDIAN
+
+#endif /* FEATURE_SOUND */
 
 #endif
 

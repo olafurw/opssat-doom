@@ -30,7 +30,7 @@ static struct
     int episode;
     int map;
 } valid_modes[] = {
-    { pack_chex, retail,     1, 5 },
+    { pack_chex, shareware,  1, 5 },
     { doom,      shareware,  1, 9 },
     { doom,      registered, 3, 9 },
     { doom,      retail,     4, 9 },
@@ -120,9 +120,6 @@ static struct {
     GameMission_t mission;
     GameVersion_t version;
 } valid_versions[] = {
-    { doom,     exe_doom_1_666 },
-    { doom,     exe_doom_1_7 },
-    { doom,     exe_doom_1_8 },
     { doom,     exe_doom_1_9 },
     { doom,     exe_hacx },
     { doom,     exe_ultimate },

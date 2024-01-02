@@ -26,7 +26,6 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "m_misc.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -35,13 +34,11 @@
 typedef struct
 {
     char *patch_names[MAX_INSTRUMENTS];
-    int used[MAX_INSTRUMENTS];
     int mapping[MAX_INSTRUMENTS];
-    unsigned int count;
 } gus_config_t;
 
 char *gus_patch_path = "";
-int gus_ram_kb = 1024;
+unsigned int gus_ram_kb = 1024;
 
 static unsigned int MappingIndex(void)
 {
@@ -111,7 +108,6 @@ static int SplitLine(char *line, char **fields, unsigned int max_fields)
 static void ParseLine(gus_config_t *config, char *line)
 {
     char *fields[6];
-    unsigned int i;
     unsigned int num_fields;
     unsigned int instr_id, mapped_id;
 
@@ -123,33 +119,11 @@ static void ParseLine(gus_config_t *config, char *line)
     }
 
     instr_id = atoi(fields[0]);
-
-    // Skip non GM percussions.
-    if ((instr_id >= 128 && instr_id < 128 + 35) || instr_id > 128 + 81)
-    {
-        return;
-    }
-
     mapped_id = atoi(fields[MappingIndex()]);
 
-    for (i = 0; i < config->count; i++)
-    {
-        if (config->used[i] == mapped_id)
-        {
-            break;
-        }
-    }
-    
-    if (i == config->count)
-    {
-        // DMX uses wrong patch name (we should use name of 'mapped_id'
-        // instrument, but DMX uses name of 'instr_id' instead).
-        free(config->patch_names[i]);
-        config->patch_names[i] = M_StringDuplicate(fields[5]);
-        config->used[i] = mapped_id;
-        config->count++;
-    }
-    config->mapping[instr_id] = i;
+    free(config->patch_names[instr_id]);
+    config->patch_names[instr_id] = strdup(fields[5]);
+    config->mapping[instr_id] = mapped_id;
 }
 
 static void ParseDMXConfig(char *dmxconf, gus_config_t *config)
@@ -162,10 +136,7 @@ static void ParseDMXConfig(char *dmxconf, gus_config_t *config)
     for (i = 0; i < MAX_INSTRUMENTS; ++i)
     {
         config->mapping[i] = -1;
-        config->used[i] = -1;
     }
-
-    config->count = 0;
 
     p = dmxconf;
 
@@ -220,7 +191,6 @@ static char *ReadDMXConfig(void)
     data = Z_Malloc(len + 1, PU_STATIC, NULL);
     W_ReadLump(lumpnum, data);
 
-    data[len] = '\0';
     return data;
 }
 
@@ -253,8 +223,8 @@ static boolean WriteTimidityConfig(char *path, gus_config_t *config)
     }
 
     fprintf(fstream, "\ndrumset 0\n\n");
-    
-    for (i = 128 + 35; i <= 128 + 81; ++i)
+
+    for (i = 128 + 25; i < MAX_INSTRUMENTS; ++i)
     {
         if (config->mapping[i] >= 0 && config->mapping[i] < MAX_INSTRUMENTS
          && config->patch_names[config->mapping[i]] != NULL)

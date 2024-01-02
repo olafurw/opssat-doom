@@ -12,7 +12,7 @@ do
   # Run Chocolate Doom for each demo
   echo -e "\n\n$(date +"%Y-%m-%d %H:%M:%S") Will OPS-SAT-1 run DOOM?\n" >> toGround/doom.log
   timestamp=$(date +"%Y%m%d%H%M%S")
-  ./src/chocolate-doom -nographics -nosound -nograbmouse -iwad demos/doom.wad -statdump toGround/${demo}-output-${timestamp}.txt -cdemo demos/${demo} >> toGround/doom.log 2>&1
+  ./src/bin/opssat-doom -nosound -nomusic -nosfx -nodraw -iwad demos/doom.wad -statdump toGround/${demo}-output-${timestamp}.txt -cdemo demos/${demo} >> toGround/doom.log
 
   # Check the output
   if diff toGround/${demo}-output-${timestamp}.txt demos/${demo}.txt; then

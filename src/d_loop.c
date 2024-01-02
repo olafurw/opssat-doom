@@ -48,12 +48,6 @@ typedef struct
     boolean ingame[NET_MAXPLAYERS];
 } ticcmd_set_t;
 
-// Maximum time that we wait in TryRunTics() for netgame data to be
-// received before we bail out and render a frame anyway.
-// Vanilla Doom used 20 for this value, but we use a smaller value
-// instead for better responsiveness of the menu when we're stuck.
-#define MAX_NETGAME_STALL_TICS  5
-
 //
 // gametic is the tic about to (or currently being) run
 // maketic is the tic that hasn't had control made for it yet
@@ -313,6 +307,7 @@ void D_StartGameLoop(void)
     lasttime = GetAdjustedTime() / ticdup;
 }
 
+#if ORIGCODE
 //
 // Block until the game start message is received from the server.
 //
@@ -340,9 +335,12 @@ static void BlockUntilStart(net_gamesettings_t *settings,
     }
 }
 
+#endif
+
 void D_StartNetGame(net_gamesettings_t *settings,
                     netgame_startup_callback_t callback)
 {
+#if ORIGCODE
     int i;
 
     offsetms = 0;
@@ -438,13 +436,26 @@ void D_StartNetGame(net_gamesettings_t *settings,
     //{
     //    printf("Syncing netgames like Vanilla Doom.\n");
     //}
+#else
+    settings->consoleplayer = 0;
+	settings->num_players = 1;
+	settings->player_classes[0] = player_class;
+	settings->new_sync = 0;
+	settings->extratics = 1;
+	settings->ticdup = 1;
+
+	ticdup = settings->ticdup;
+	new_sync = settings->new_sync;
+#endif
 }
 
 boolean D_InitNetGame(net_connect_data_t *connect_data)
 {
     boolean result = false;
+#ifdef FEATURE_MULTIPLAYER
     net_addr_t *addr = NULL;
     int i;
+#endif
 
     // Call D_QuitNetGame on exit:
 
@@ -752,6 +763,7 @@ void TryRunTics (void)
 	counts = 1;
 
     // wait for new tics if needed
+
     while (!PlayersInGame() || lowtic < gametic/ticdup + counts)
     {
 	NetUpdate ();
@@ -761,19 +773,15 @@ void TryRunTics (void)
 	if (lowtic < gametic/ticdup)
 	    I_Error ("TryRunTics: lowtic < gametic");
 
-        // Still no tics to run? Sleep until some are available.
-        if (lowtic < gametic/ticdup + counts)
-        {
-            // If we're in a netgame, we might spin forever waiting for
-            // new network data to be received. So don't stay in here
-            // forever - give the menu a chance to work.
-            if (I_GetTime() / ticdup - entertic >= MAX_NETGAME_STALL_TICS)
-            {
-                return;
-            }
+        // Don't stay in this loop forever.  The menu is still running,
+        // so return to update the screen
 
-            I_Sleep(1);
-        }
+	if (I_GetTime() / ticdup - entertic > 0)
+	{
+	    return;
+	}
+
+        I_Sleep(1);
     }
 
     // run the count * ticdup dics
@@ -816,85 +824,3 @@ void D_RegisterLoopCallbacks(loop_interface_t *i)
 {
     loop_interface = i;
 }
-
-// TODO: Move nonvanilla demo functions into a dedicated file.
-#include "m_misc.h"
-#include "w_wad.h"
-
-static boolean StrictDemos(void)
-{
-    //!
-    // @category demo
-    //
-    // When recording or playing back demos, disable any extensions
-    // of the vanilla demo format - record demos as vanilla would do,
-    // and play back demos as vanilla would do.
-    //
-    return M_ParmExists("-strictdemos");
-}
-
-// If the provided conditional value is true, we're trying to record
-// a demo file that will include a non-vanilla extension. The function
-// will return true if the conditional is true and it's allowed to use
-// this extension (no extensions are allowed if -strictdemos is given
-// on the command line). A warning is shown on the console using the
-// provided string describing the non-vanilla expansion.
-boolean D_NonVanillaRecord(boolean conditional, char *feature)
-{
-    if (!conditional || StrictDemos())
-    {
-        return false;
-    }
-
-    printf("Warning: Recording a demo file with a non-vanilla extension "
-           "(%s). Use -strictdemos to disable this extension.\n",
-           feature);
-
-    return true;
-}
-
-// Returns true if the given lump number corresponds to data from a .lmp
-// file, as opposed to a WAD.
-static boolean IsDemoFile(int lumpnum)
-{
-    char *lower;
-    boolean result;
-
-    lower = M_StringDuplicate(lumpinfo[lumpnum]->wad_file->path);
-    M_ForceLowercase(lower);
-    result = M_StringEndsWith(lower, ".lmp");
-    free(lower);
-
-    return result;
-}
-
-// If the provided conditional value is true, we're trying to play back
-// a demo that includes a non-vanilla extension. We return true if the
-// conditional is true and it's allowed to use this extension, checking
-// that:
-//  - The -strictdemos command line argument is not provided.
-//  - The given lumpnum identifying the demo to play back identifies a
-//    demo that comes from a .lmp file, not a .wad file.
-//  - Before proceeding, a warning is shown to the user on the console.
-boolean D_NonVanillaPlayback(boolean conditional, int lumpnum,
-                             char *feature)
-{
-    if (!conditional || StrictDemos())
-    {
-        return false;
-    }
-
-    if (!IsDemoFile(lumpnum))
-    {
-        printf("Warning: WAD contains demo with a non-vanilla extension "
-               "(%s)\n", feature);
-        return false;
-    }
-
-    printf("Warning: Playing back a demo file with a non-vanilla extension "
-           "(%s). Use -strictdemos to disable this extension.\n",
-           feature);
-
-    return true;
-}
-

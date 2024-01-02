@@ -53,7 +53,7 @@ typedef enum
 } midievent;
 
 // Structure to hold MUS file header
-typedef struct
+typedef struct 
 {
     byte id[4];
     unsigned short scorelength;
@@ -61,7 +61,7 @@ typedef struct
     unsigned short primarychannels;
     unsigned short secondarychannels;
     unsigned short instrumentcount;
-} PACKEDATTR musheader;
+} musheader;
 
 // Standard MIDI type 0 header + track header
 static const byte midiheader[] =
@@ -482,6 +482,8 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
         return true;
     }
 
+// [crispy] enable MUS format header check
+#define CHECK_MUS_HEADER
 #ifdef CHECK_MUS_HEADER
     // Check MUS header
     if (musfileheader.id[0] != 'M'

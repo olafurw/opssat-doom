@@ -21,19 +21,14 @@
 #ifndef __DOOMTYPE__
 #define __DOOMTYPE__
 
-#if defined(_MSC_VER) && !defined(__cplusplus)
-#define inline __inline
-#endif
-
 // #define macros to provide functions missing in Windows.
 // Outside Windows, we use strings.h for str[n]casecmp.
 
 
 #ifdef _WIN32
 
-#include <string.h>
-#define strcasecmp stricmp
-#define strncasecmp strnicmp
+#define strcasecmp _stricmp
+#define strncasecmp _strnicmp
 
 #else
 
@@ -52,13 +47,7 @@
 //
 
 #ifdef __GNUC__
-
-#if defined(_WIN32) && !defined(__clang__)
-#define PACKEDATTR __attribute__((packed,gcc_struct))
-#else
 #define PACKEDATTR __attribute__((packed))
-#endif
-
 #else
 #define PACKEDATTR
 #endif
@@ -73,7 +62,7 @@
 
 #include <inttypes.h>
 
-#if defined(__cplusplus) || defined(__bool_true_false_are_defined)
+#ifdef __cplusplus
 
 // Use builtin bool type with C++.
 
@@ -83,8 +72,9 @@ typedef bool boolean;
 
 typedef enum 
 {
-    false, 
-    true
+    false	= 0,
+    true	= 1,
+	undef	= 0xFFFFFFFF
 } boolean;
 
 #endif

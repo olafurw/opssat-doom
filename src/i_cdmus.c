@@ -18,21 +18,26 @@
 
 #include <stdio.h>
 
-#include "SDL.h"
-#include "SDL_cdrom.h"
+#ifdef ORIGCODE
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_cdrom.h"
+#endif
 
 #include "doomtype.h"
 
 #include "i_cdmus.h"
 
+#ifdef ORIGCODE
 static SDL_CD *cd_handle = NULL;
 static char *startup_error = NULL;
 static const char *cd_name = NULL;
+#endif
 
 int cd_Error;
 
 int I_CDMusInit(void)
 {
+#ifdef ORIGCODE
     int drive_num = 0;
 
     // The initialize function is re-invoked when the CD track play cheat
@@ -77,7 +82,7 @@ int I_CDMusInit(void)
     }
 
     cd_Error = 0;
-
+#endif
     return 0;
 }
 
@@ -86,6 +91,7 @@ int I_CDMusInit(void)
 
 void I_CDMusPrintStartup(void)
 {
+#ifdef ORIGCODE
     if (cd_name != NULL)
     {
         printf("I_CDMusInit: Using CD-ROM drive: %s\n", cd_name);
@@ -95,10 +101,12 @@ void I_CDMusPrintStartup(void)
     {
         fprintf(stderr, "I_CDMusInit: %s\n", startup_error);
     }
+#endif
 }
 
 int I_CDMusPlay(int track)
 {
+#ifdef ORIGCODE
     int result;
 
     if (cd_handle == NULL)
@@ -114,10 +122,14 @@ int I_CDMusPlay(int track)
 
     cd_Error = 0;
     return result;
+#else
+	return 0;
+#endif
 }
 
 int I_CDMusStop(void)
 {
+#ifdef ORIGCODE
     int result;
 
     result = SDL_CDStop(cd_handle);
@@ -125,10 +137,14 @@ int I_CDMusStop(void)
     cd_Error = 0;
 
     return result;
+#else
+	return 0;
+#endif
 }
 
 int I_CDMusResume(void)
 {
+#ifdef ORIGCODE
     int result;
 
     result = SDL_CDResume(cd_handle);
@@ -136,6 +152,9 @@ int I_CDMusResume(void)
     cd_Error = 0;
 
     return result;
+#else
+	return 0;
+#endif
 }
 
 int I_CDMusSetVolume(int volume)
@@ -149,6 +168,7 @@ int I_CDMusSetVolume(int volume)
 
 int I_CDMusFirstTrack(void)
 {
+#ifdef ORIGCODE
     int i;
 
     if (cd_handle == NULL)
@@ -174,10 +194,14 @@ int I_CDMusFirstTrack(void)
     cd_Error = 1;
 
     return -1;
+#else
+	return 0;
+#endif
 }
 
 int I_CDMusLastTrack(void)
 {
+#ifdef ORIGCODE
     if (cd_handle == NULL)
     {
         cd_Error = 1;
@@ -187,10 +211,14 @@ int I_CDMusLastTrack(void)
     cd_Error = 0;
 
     return cd_handle->numtracks;
+#else
+	return 0;
+#endif
 }
 
 int I_CDMusTrackLength(int track_num)
 {
+#ifdef ORIGCODE
     SDL_CDtrack *track;
 
     if (cd_handle == NULL || track_num < 1 || track_num > cd_handle->numtracks)
@@ -208,5 +236,8 @@ int I_CDMusTrackLength(int track_num)
     cd_Error = 0;
 
     return (track->length + CD_FPS - 1) / CD_FPS;
+#else
+	return 0;
+#endif
 }
 

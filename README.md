@@ -30,4 +30,4 @@ cd opssat-doom/
 
 ### Source Ports
 
-Based on [Chocolate Doom 2.3.0](https://github.com/chocolate-doom/chocolate-doom)
+Based on [doomgeneric](https://github.com/ozkl/doomgeneric)

@@ -28,6 +28,10 @@
 #include "m_argv.h"
 #include "z_zone.h"
 
+#if defined(_MSC_VER) && !defined(__cplusplus)
+#define inline __inline
+#endif
+
 // Should be I_VideoBuffer
 
 static byte *src_buffer;
@@ -983,7 +987,7 @@ static boolean I_Stretch5x(int x1, int y1, int x2, int y2)
     }
 
     // test hack for Porsche Monty... scan line simulation:
-    // See here: https://www.doomworld.com/vb/post/962612
+    // See here: http://www.doomworld.com/vb/post/962612
 
     if (M_CheckParm("-scanline") > 0)
     {
@@ -1380,12 +1384,69 @@ screen_mode_t mode_squash_4x = {
     false,
 };
 
-// We used to have mode_squash_5x here as well, but it got removed.
-// 5x squashing gives 1280x1000, which is very close to the 4x stretched
-// 1280x960. The difference is that 1280x1000 is the wrong aspect ratio.
-// It was ultimately decided that it was better to use the right aspect
-// ratio and have slightly larger borders than to have slightly smaller
-// windowboxing borders. It also means that the aspect ratio is correct
-// when running at 1280x1024. See bug #460 for more details, or this
-// post: https://www.doomworld.com/vb/post/1316735
+#define DRAW_PIXEL5 \
+        *dest++ = *dest2++ = *dest3++ = *dest4++ = *dest5++ = c
+
+static inline void WriteSquashedLine5x(byte *dest, byte *src)
+{
+    int x;
+    int c;
+    byte *dest2, *dest3, *dest4, *dest5;
+
+    dest2 = dest + dest_pitch;
+    dest3 = dest + dest_pitch * 2;
+    dest4 = dest + dest_pitch * 3;
+    dest5 = dest + dest_pitch * 4;
+
+    for (x=0; x<SCREENWIDTH; ++x)
+    {
+        // Draw in blocks of 5
+
+        // 100% pixel 0  x4
+
+        c = *src++;
+        DRAW_PIXEL5;
+        DRAW_PIXEL5;
+        DRAW_PIXEL5;
+        DRAW_PIXEL5;
+    }
+}
+
+//
+// 5x squashed (1280x1000)
+//
+
+static boolean I_Squash5x(int x1, int y1, int x2, int y2)
+{
+    byte *bufp, *screenp;
+    int y;
+
+    // Only works with full screen update
+
+    if (x1 != 0 || y1 != 0 || x2 != SCREENWIDTH || y2 != SCREENHEIGHT)
+    {
+        return false;
+    }    
+
+    bufp = src_buffer;
+    screenp = (byte *) dest_buffer;
+
+    for (y=0; y<SCREENHEIGHT; ++y) 
+    {
+        WriteSquashedLine5x(screenp, bufp);
+
+        screenp += dest_pitch * 5;
+        bufp += SCREENWIDTH;
+    }
+
+    return true;
+}
+
+screen_mode_t mode_squash_5x = {
+    SCREENWIDTH_4_3 * 5, SCREENHEIGHT * 5,
+    I_InitStretchTables,
+    I_Squash5x,
+    false,
+};
+
 
