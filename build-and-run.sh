@@ -1,3 +1,2 @@
-make;
 echo "===========================================================================";
-./src/chocolate-doom -headless -nosound -nograbmouse -iwad demos/doom.wad -statdump x.txt -cdemo demos/m1-fast;
+rm -rf output && mkdir output && make && ./bin/opssat-doom -nosound -nomusic -nosfx -nodraw -iwad demos/doom.wad -playdemo demos/m1-fast
