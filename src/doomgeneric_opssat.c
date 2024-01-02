@@ -19,7 +19,7 @@ void DG_Init()
 
 void DG_DrawFrame()
 {
-    if (frames % 50 == 0)
+    if (frames % 500 == 0)
     {
         char* filename = (char*)malloc(24 * sizeof(char));
         sprintf(filename, "output/output%06d.jpg", frames);

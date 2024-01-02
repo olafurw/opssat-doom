@@ -110,6 +110,8 @@ boolean         sendsave;             	// send a save event next tic
 boolean         usergame;               // ok to save / end game 
  
 boolean         timingdemo;             // if true, exit with report on completion 
+boolean         cdemo;                  // if true, exit when done
+boolean         cdemostatdumped;        // check demos should always dump stats but only once, so if a demo naturally dumps stats then we do nothing.
 boolean         nodrawers;              // for comparative timing purposes 
 int             starttime;          	// for comparative timing purposes  	 
  
@@ -1483,6 +1485,10 @@ void G_DoCompleted (void)
     automapactive = false; 
 
     StatCopy(&wminfo);
+    if (cdemo)
+    {
+        cdemostatdumped = true;
+    }
  
     WI_Start (&wminfo); 
 } 
@@ -2212,7 +2218,23 @@ void G_DoPlayDemo (void)
 
     usergame = false; 
     demoplayback = true; 
-} 
+}
+
+//
+// G_CDemo
+//
+void G_CDemo (char* name)
+{
+    nodrawers = M_CheckParm ("-nodraw"); 
+    cdemo = true;
+    cdemostatdumped = false;
+    singletics = true;
+    singledemo = true;
+    demoplayback = true;
+
+    defdemoname = name;
+    gameaction = ga_playdemo;
+}
 
 //
 // G_TimeDemo 
@@ -2249,6 +2271,16 @@ boolean G_CheckDemoStatus (void)
 { 
     int             endtime; 
 	 
+    if (cdemo)
+    {
+        if (!cdemostatdumped)
+        {
+            G_DoCompleted();
+        }
+        cdemo = false;
+        return false;
+    }
+    
     if (timingdemo) 
     { 
         float fps;

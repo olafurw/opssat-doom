@@ -257,11 +257,7 @@ void I_Quit (void)
         entry = entry->next;
     }
 
-#if ORIGCODE
-    SDL_Quit();
-
     exit(0);
-#endif
 }
 
 #if !defined(_WIN32) && !defined(__MACOSX__)

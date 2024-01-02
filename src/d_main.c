@@ -1073,7 +1073,8 @@ static void D_Endoom(void)
     // game has actually started.
 
     if (!show_endoom || !main_loop_started
-     || screensaver_mode || M_CheckParm("-testcontrols") > 0)
+     || screensaver_mode || M_CheckParm("-testcontrols") > 0
+     || M_CheckParm("-cdemo") > 0)
     {
         return;
     }
@@ -1480,6 +1481,12 @@ void D_DoomMain (void)
 
     }
 
+    if (!p)
+    {
+        // To load check demos
+        p = M_CheckParmWithArgs("-cdemo", 1);
+    }
+
     if (p)
     {
         // With Vanilla you have to specify the file without extension,
@@ -1823,6 +1830,15 @@ void D_DoomMain (void)
     {
 		G_TimeDemo (demolumpname);
 		D_DoomLoop ();
+        return;
+    }
+
+    p = M_CheckParmWithArgs("-cdemo", 1);
+    if (p)
+    {
+        singledemo = true; // quit after one demo
+        G_CDemo(demolumpname);
+        D_DoomLoop();
         return;
     }
 
