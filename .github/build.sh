@@ -1,0 +1,3 @@
+pushd src;
+make;
+popd;
