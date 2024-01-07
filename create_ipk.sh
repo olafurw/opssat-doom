@@ -8,7 +8,7 @@
 project_dir=$(pwd)
 
 # The files that will be packaged into the ipk.
-bin_doom=${project_dir}/src/chocolate-doom
+bin_doom=${project_dir}/src/bin/opssat-doom
 seu_simulator=${project_dir}/simulate_seu.py
 seu_simulator_test=${project_dir}/test_simulate_seu.py
 
@@ -40,11 +40,11 @@ IPK_FILENAME=""
 target_dir=/home/${PKG_NAME}
 deploy_dir=${project_dir}/deploy
 deploy_exp_dir=${deploy_dir}/${target_dir}
-deploy_exp_lib_dir=${deploy_exp_dir}/lib
+#deploy_exp_lib_dir=${deploy_exp_dir}/lib
 
 # Clean and initialize the deploy folder.
 rm -rf ${deploy_dir}
-mkdir -p ${deploy_exp_lib_dir}
+mkdir -p ${deploy_exp_dir}
 
 # The project can be packaged for the spacecraft (no bash command options) or for the EM (use the 'em' option).
 # This distinction is only necessary in case there are files that are environment specific to the EM vs the spacecraft.
@@ -69,12 +69,6 @@ else
   exit 1
 fi
 
-# Copy into ${deploy_exp_lib_dir} the library files.
-cp /home/user/poky_sdk/tmp/sysroots/beaglebone/lib/libSDL-1.2.so.0 ${deploy_exp_lib_dir}/
-cp /home/user/poky_sdk/tmp/sysroots/beaglebone/lib/libSDL_mixer-1.2.so.0 ${deploy_exp_lib_dir}/
-cp /home/user/poky_sdk/tmp/sysroots/beaglebone/lib/libSDL_net-1.2.so.0 ${deploy_exp_lib_dir}/
-#cp /home/user/poky_sdk/tmp/sysroots/beaglebone/usr/lib/libpng16.so.16 ${deploy_exp_lib_dir}/
-
 # Copy into ${deploy_exp_dir} core project files that are required for both EM and spacecraft deployments.
 
 # The SEU simulator
@@ -90,9 +84,6 @@ cp -r demos ${deploy_exp_dir}/
 # The start and stop scripts.
 cp start_${PKG_NAME}.sh ${deploy_exp_dir}/
 cp stop_${PKG_NAME}.sh ${deploy_exp_dir}/
-
-# Replace relative paths in the test script with full paths in the spacecraft payload computer's file system.
-sed -i "s|\./simulate_seu.py|${target_dir}/simulate_seu.py|g; s|\./src/chocolate-doom|${target_dir}/src/chocolate-doom|g; s|\./lib|${target_dir}/lib|g; s|demos/|${target_dir}/demos/|g; s|toGround/|${target_dir}/toGround/|g" ${deploy_exp_dir}/start_${PKG_NAME}.sh
 
 # Create the toGround directory.
 mkdir ${deploy_exp_dir}/toGround

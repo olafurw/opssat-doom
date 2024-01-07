@@ -6,3 +6,5 @@ src/bin/
 src/output/
 output/
 lib/
+deploy/
+backup/

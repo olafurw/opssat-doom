@@ -16,7 +16,13 @@ ifndef CC
 endif
 
 LDFLAGS+=-Wl,--gc-sections
-CFLAGS+=-static -ggdb3 -Os -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
+CFLAGS+=-ggdb3 -Os -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
+
+# check if static flag is set to YES
+ifeq ($(STATIC),YES)
+	CFLAGS+=-static
+endif
+
 LIBS+=-lm -lc
 
 # subdirectory for objects
