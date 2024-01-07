@@ -1,11 +1,11 @@
 #!/bin/sh
 
 # Define the list of demos
-demos="e1m7-607 impfight m1-fast m1-normal m1-simple"
+demos="zero-e1m1-short zero-e1m1-long zero-e1m1-run-around"
 error=0
 
-# Create the toGround folder if it doesn't exist
-mkdir -p toGround/
+rm -rf toGround/
+mkdir toGround/
 
 # Loop through each demo
 for demo in $demos
@@ -16,7 +16,7 @@ do
   ./src/bin/opssat-doom -nosound -nomusic -nosfx -nodraw -iwad demos/doom.wad -statdump toGround/${demo}-output-${timestamp}.txt -cdemo demos/${demo} >> toGround/doom.log
 
   # Check the output
-  if diff toGround/${demo}-output-${timestamp}.txt demos/${demo}.txt; then
+  if diff -w toGround/${demo}-output-${timestamp}.txt demos/${demo}.txt; then
     echo "$(date +"%Y-%m-%d %H:%M:%S") OK - demos/${demo}" >> toGround/summary.log
   else
     echo "$(date +"%Y-%m-%d %H:%M:%S") ERROR - demos/${demo}" >> toGround/summary.log
@@ -24,7 +24,7 @@ do
   fi
 done
 
-echo toGround/summary.log;
+cat toGround/summary.log;
 
 # Qapla'
 exit $error

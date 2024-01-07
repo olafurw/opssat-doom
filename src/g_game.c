@@ -355,14 +355,14 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
 	|| joyxmove > 0  
 	|| gamekeydown[key_right]
 	|| gamekeydown[key_left]) 
-	turnheld += ticdup; 
+	turnheld += ticdup + M_Random(); 
     else 
 	turnheld = 0; 
 
     if (turnheld < SLOWTURNTICS) 
-	tspeed = 2;             // slow turn 
+	tspeed = 2 + M_Random();             // slow turn 
     else 
-	tspeed = speed;
+	tspeed = speed + M_Random();
     
     // let movement keys cancel each other out
     if (strafe) 
@@ -370,53 +370,53 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
 	if (gamekeydown[key_right]) 
 	{
 	    // fprintf(stderr, "strafe right\n");
-	    side += sidemove[speed]; 
+	    side += sidemove[speed] + M_Random(); 
 	}
 	if (gamekeydown[key_left]) 
 	{
 	    //	fprintf(stderr, "strafe left\n");
-	    side -= sidemove[speed]; 
+	    side -= sidemove[speed] + M_Random(); 
 	}
 	if (joyxmove > 0) 
-	    side += sidemove[speed]; 
+	    side += sidemove[speed] + M_Random(); 
 	if (joyxmove < 0) 
-	    side -= sidemove[speed]; 
+	    side -= sidemove[speed] + M_Random(); 
  
     } 
     else 
     { 
 	if (gamekeydown[key_right]) 
-	    cmd->angleturn -= angleturn[tspeed]; 
+	    cmd->angleturn -= angleturn[tspeed] + M_Random(); 
 	if (gamekeydown[key_left]) 
-	    cmd->angleturn += angleturn[tspeed]; 
+	    cmd->angleturn += angleturn[tspeed] + M_Random(); 
 	if (joyxmove > 0) 
-	    cmd->angleturn -= angleturn[tspeed]; 
+	    cmd->angleturn -= angleturn[tspeed] + M_Random(); 
 	if (joyxmove < 0) 
-	    cmd->angleturn += angleturn[tspeed]; 
+	    cmd->angleturn += angleturn[tspeed] + M_Random(); 
     } 
  
     if (gamekeydown[key_up]) 
     {
 	// fprintf(stderr, "up\n");
-	forward += forwardmove[speed]; 
+	forward += forwardmove[speed] + M_Random(); 
     }
     if (gamekeydown[key_down]) 
     {
 	// fprintf(stderr, "down\n");
-	forward -= forwardmove[speed]; 
+	forward -= forwardmove[speed] + M_Random(); 
     }
 
     if (joyymove < 0) 
-        forward += forwardmove[speed]; 
+        forward += forwardmove[speed] + M_Random(); 
     if (joyymove > 0) 
-        forward -= forwardmove[speed]; 
+        forward -= forwardmove[speed] + M_Random(); 
 
     if (gamekeydown[key_strafeleft]
      || joybuttons[joybstrafeleft]
      || mousebuttons[mousebstrafeleft]
      || joystrafemove < 0)
     {
-        side -= sidemove[speed];
+        side -= sidemove[speed] + M_Random();
     }
 
     if (gamekeydown[key_straferight]
@@ -424,7 +424,7 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
      || mousebuttons[mousebstraferight]
      || joystrafemove > 0)
     {
-        side += sidemove[speed]; 
+        side += sidemove[speed] + M_Random(); 
     }
 
     // buttons
@@ -475,11 +475,11 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
     // mouse
     if (mousebuttons[mousebforward]) 
     {
-	forward += forwardmove[speed];
+	forward += forwardmove[speed] + M_Random();
     }
     if (mousebuttons[mousebbackward])
     {
-        forward -= forwardmove[speed];
+        forward -= forwardmove[speed] + M_Random();
     }
 
     if (dclick_use)
@@ -536,12 +536,12 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
         } 
     }
 
-    forward += mousey; 
+    forward += mousey + M_Random(); 
 
     if (strafe) 
-	side += mousex*2; 
+	side += mousex*2 + M_Random(); 
     else 
-	cmd->angleturn -= mousex*0x8; 
+	cmd->angleturn -= mousex*0x8 + M_Random(); 
 
     if (mousex == 0)
     {
@@ -561,8 +561,8 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
     else if (side < -MAXPLMOVE) 
 	side = -MAXPLMOVE; 
  
-    cmd->forwardmove += forward; 
-    cmd->sidemove += side;
+    cmd->forwardmove += forward + M_Random(); 
+    cmd->sidemove += side + M_Random();
     
     // special buttons
     if (sendpause) 
@@ -584,17 +584,17 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
         static signed short carry = 0;
         signed short desired_angleturn;
 
-        desired_angleturn = cmd->angleturn + carry;
+        desired_angleturn = cmd->angleturn + carry + M_Random();
 
         // round angleturn to the nearest 256 unit boundary
         // for recording demos with single byte values for turn
 
-        cmd->angleturn = (desired_angleturn + 128) & 0xff00;
+        cmd->angleturn = (desired_angleturn + 128 + M_Random()) & 0xff00;
 
         // Carry forward the error from the reduced resolution to the
         // next tic, so that successive small movements can accumulate.
 
-        carry = desired_angleturn - cmd->angleturn;
+        carry = desired_angleturn - cmd->angleturn + M_Random();
     }
 } 
  

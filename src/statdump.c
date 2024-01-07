@@ -26,6 +26,7 @@
 #include "d_player.h"
 #include "d_mode.h"
 #include "m_argv.h"
+#include "m_random.h"
 
 #include "statdump.h"
 
@@ -159,6 +160,7 @@ static void PrintPercentage(FILE *stream, int amount, int total)
 static void PrintPlayerStats(FILE *stream, wbstartstruct_t *stats,
         int player_num)
 {
+    int totalrngcalls;
     wbplayerstruct_t *player = &stats->plyr[player_num];
 
     fprintf(stream, "Player %i (%s):\n", player_num + 1,
@@ -181,6 +183,9 @@ static void PrintPlayerStats(FILE *stream, wbstartstruct_t *stats,
     fprintf(stream, "\tSecrets: ");
     PrintPercentage(stream, player->ssecret, stats->maxsecret);
     fprintf(stream, "\n");
+
+    totalrngcalls = TotalRngCalls();
+    fprintf(stream, "\tRNG Calls: %i\n", totalrngcalls);
 }
 
 /* Frags table for multiplayer games. */
