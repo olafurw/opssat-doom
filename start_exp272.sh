@@ -63,6 +63,33 @@ if [ ! -f "$EXP_HOME_PATH/backup/$(basename $EXP_DOOM_BIN_PATH)" ]; then
   cp "$EXP_DOOM_BIN_PATH" "$EXP_HOME_PATH/backup/"
 fi
 
+# Simulate SEU rates of 0.01% and 0.1%
+#seu_rates="0.0001 0.001"
+
+# Simulate SEU rate of 0.0001%
+seu_rates="0.000001"
+
+# Target files to corrupt with the SEU simulations
+#seu_target_files="${EXP_LIB_PATH}/libm.so.6 ${EXP_LIB_PATH}/libc.so.6"
+#seu_target_files="${EXP_LIB_PATH}/libm.so.6"
+#seu_target_files="${EXP_LIB_PATH}/libc.so.6"
+seu_target_files="${EXP_DOOM_BIN_PATH}"
+
+# Create the toGround and output folder if it doesn't exist
+mkdir -p $EXP_TOGROUND_PATH/
+mkdir -p $EXP_HOME_PATH/output
+
+# Create a lib directory and copy into it the system's libc and libm libraries
+# Do this so that we can safely corrup those library to simulate SEU induced bit flips
+# UPDATE: This experiment is put on hold
+#mkdir -p $EXP_LIB_PATH/
+
+# Make a copy the doom executable so that we can restore it after corrupting it
+# Check if the file does not already exist in the backup directory from a previous run
+mkdir -p $EXP_HOME_PATH/backup
+if [ ! -f "$EXP_HOME_PATH/backup/$(basename $EXP_DOOM_BIN_PATH)" ]; then
+  cp "$EXP_DOOM_BIN_PATH" "$EXP_HOME_PATH/backup/"
+fi
 
 # Sets LD_LIBRARY_PATH for the duration of this wrapper script,, directing it to use libraries from the experiment's lib directory
 # This change is only in effect for the duration of the script and any processes that the script launches
