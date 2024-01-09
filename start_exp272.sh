@@ -25,7 +25,15 @@ EXP_TOGROUND_PATH="${EXP_HOME_PATH}/toGround"
 EXP_DEMOS_PATH="${EXP_HOME_PATH}/demos"
 
 # Define the list of demos
-demos="e1m7-607 impfight m1-fast m1-normal m1-simple"
+demos_regular="e1m7-607 impfight m1-fast m1-normal m1-simple"
+demos_zero="zero-e1m1-short zero-e1m1-run-around zero-e1m1-long"
+
+# Flag if we are using a Doom build with an rng table of all zeros
+demos_zero_rng_flag=1
+demos="$demos_regular"
+if [ "$demos_zero_rng_flag" -eq 1 ]; then
+  demos="$demos_zero"
+fi
 
 # Simulate SEU rates of 0.01% and 0.1%
 #seu_rates="0.0001 0.001"
@@ -116,8 +124,17 @@ do
         fi
       fi
 
+      # Define the path to the CSV file
+      csv_log_filepath="$EXP_TOGROUND_PATH/summary.csv"
+
+      # Check if the file exists
+      if [ ! -f "$csv_log_filepath" ]; then
+        # If the file does not exist, create it and write the header
+        echo "date,time,result,demo,seu_target,seu_rate" > "$csv_log_filepath"
+      fi
+
       # Log the result
-      echo "$(date +"%Y-%m-%d %H:%M:%S") ${result} - Demo: demos/${demo} - SEU target: $(basename "$seu_target_file") - SEU rate: ${seu_rate}" >> $EXP_TOGROUND_PATH/summary.log
+      echo "$(date +"%Y-%m-%d,%H:%M:%S"),${result},${demo},${seu_target_file},${seu_rate}" >> "$csv_log_filepath"
     done
   done
 done

@@ -4,6 +4,9 @@
 STATIC_FLAG=NO
 CLEAN_FLAG=NO
 
+# Delete backup folder if it exists because it contains the old build
+rm -rf backup
+
 # parse arguments
 for arg in "$@"
 do
