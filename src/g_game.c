@@ -2331,5 +2331,20 @@ boolean G_CheckDemoStatus (void)
     return false; 
 } 
  
- 
- 
+int G_GetPlayerKillCount(void)
+{
+    int i;
+    int killcount;
+    killcount = 0;
+
+    for (i = 0; i < MAXPLAYERS; i++)
+    {
+        if (playeringame[i])
+        {
+            killcount += players[i].killcount;
+        }
+    }
+    
+    return killcount;
+} 
+

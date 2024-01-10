@@ -3,8 +3,6 @@ toGround/
 opssat-doom.map
 src/build/
 src/bin/
-src/output/
-output/
 lib/
 deploy/
 backup/
