@@ -1,6 +1,6 @@
 # Init repo
-git submodules init;
-git submodules update;
+git submodule init;
+git submodule update;
 
 # Remove old files
 rm -rf extract/;
