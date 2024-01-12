@@ -29,6 +29,11 @@ void DG_Init()
         runid = atoi(myargv[p + 1]);
     }
 
+    char* toGroundDir = (char*)malloc(9 * sizeof(char));
+    sprintf(toGroundDir, "toGround");
+    result = mkdir(toGroundDir, 0755);
+    free(toGroundDir);
+
     char* dirname = (char*)malloc(20 * sizeof(char));
     sprintf(dirname, "toGround/run-%06d", runid);
     result = mkdir(dirname, 0755);

@@ -1,6 +1,7 @@
 # Init repo
 git submodule init;
 git submodule update;
+sudo apt install -y pkg-config;
 
 # Remove old files
 rm -rf extract/;
