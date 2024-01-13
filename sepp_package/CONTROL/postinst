@@ -1,10 +1,39 @@
 #!/bin/sh
 
-echo "Installing experiment..."
+echo "Installing..."
 chown -R exp272:exp272 /home/exp272
 chmod -R 770 /home/exp272
-chmod +x /home/exp272/src/chocolate-doom
-ln -s /home/exp272/lib/libSDL-1.2.so.0 /lib/libSDL-1.2.so.0
-ln -s /home/exp272/lib/libSDL_mixer-1.2.so.0 /lib/libSDL_mixer-1.2.so.0
-ln -s /home/exp272/lib/libSDL_net-1.2.so.0 /lib/libSDL_net-1.2.so.0
-echo "Installation completed."
+chmod +x /home/exp272/src/opssat-doom
+chmod +x /home/exp272/start_exp272.sh
+chmod +x /home/exp272/smartcam/start.sh
+
+# Backup the SmartCam config
+if [ -e "/home/exp1000/config.ini" ] && [ ! -e "/home/exp1000/config.ini.backup" ]; then
+  mv /home/exp1000/config.ini /home/exp1000/config.ini.backup
+fi
+
+# Check if /home/exp1000 directory exists before attempting to overwrite the SmartCam config
+if [ -d "/home/exp1000" ]; then
+  cp /home/exp272/smartcam/config.ini /home/exp1000/config.ini
+fi
+
+echo ""
+echo "=================     ===============     ===============   ========  ========"
+echo "\\\\ . . . . . . .\\\\   //. . . . . . .\\\\   //. . . . . . .\\\\  \\\\. . .\\\\// . . //"
+echo "||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\/ . . .||"
+echo "|| . .||   ||. . || || . .||   ||. . || || . .||   ||. . || ||. . . . . . . ||"
+echo "||. . ||   || . .|| ||. . ||   || . .|| ||. . ||   || . .|| || . | . . . . .||"
+echo "|| . .||   ||. _-|| ||-_ .||   ||. . || || . .||   ||. _-|| ||-_.|\ . . . . ||"
+echo "||. . ||   ||-’  || ||  ‘-||   || . .|| ||. . ||   ||-’  || ||  ‘|\_ . .|. .||"
+echo "|| . _||   ||    || ||    ||   ||_ . || || . _||   ||    || ||   |\ ‘-_/| . ||"
+echo "||_-’ ||  .|/    || ||    \|.  || ‘-_|| ||_-’ ||  .|/    || ||   | \  / |-_.||"
+echo "||    ||_-’      || ||      ‘-_||    || ||    ||_-’      || ||   | \  / |  ‘||"
+echo "||    ‘’         || ||         ‘’    || ||    ‘’         || ||   | \  / |   ||"
+echo "||            .===’ ‘===.         .===’.‘===.         .===’ /==. |  \/  |   ||"
+echo "||         .==’   \_|-_ ‘===. .===’   _|_   ‘===. .===’ _-|/   ‘==  \/  |   ||"
+echo "||      .==’    _-’    ‘-_  ‘=’    _-’   ‘-_    ‘=’  _-’   ‘-_  /|  \/  |   ||"
+echo "||   .==’    _-’          ‘-__\._-’         ‘-_./__-’         ‘’ |. /|  |   ||"
+echo "||.==’    _-’                                                     ‘’ |  /==.||"
+echo "==’    _-’                                                            \/   ‘=="
+echo "\   _-’                                                                ‘-_   /"
+echo " ‘’’                                                                      ‘‘’"

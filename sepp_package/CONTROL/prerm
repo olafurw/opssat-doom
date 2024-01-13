@@ -1,5 +1,7 @@
 #!/bin/sh
-rm /lib/libSDL-1.2.so.0
-rm /lib/libSDL_mixer-1.2.so.0
-rm /lib/libSDL_net-1.2.so.0
 
+# Restore the backup of the SmartCam config
+if [ -e "/home/exp1000/config.ini.backup" ]; then
+  cp /home/exp1000/config.ini.backup /home/exp1000/config.ini
+  rm -f /home/exp1000/config.ini.backup
+fi
