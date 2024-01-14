@@ -8,3 +8,4 @@ lib/
 deploy/
 backup/
 extract/
+smartcam/config.dev.ini
