@@ -2,11 +2,12 @@
 E1M1 / MAP01
 ===========================================
 
-Time: 1:01 (par: 0:30)
+Time: 0:25 (par: 0:30)
 
 Player 1 (Green):
 	Kills: 4 / 4 (100%)
-	Items: 5 / 37 (13%)
-	Secrets: 1 / 3 (33%)
-	RNG Calls: 27634
+	Items: 2 / 37 (5%)
+	Secrets: 0 / 3 (0%)
+	RNG Calls: 12235
+
 
