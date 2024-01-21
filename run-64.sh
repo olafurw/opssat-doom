@@ -1,7 +1,7 @@
 #!/bin/bash
 
 demos_folder="demos/rng-0"
-demos_shareware="e1m1 e1m2 e1m3 e1m4 e1m5 e1m6 e1m7"
+demos_shareware="e1m1"
 
 for demo in $demos_shareware
 do
