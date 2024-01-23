@@ -1,0 +1,1 @@
+cc image-test.c -lm -Wall -O3 -o image-test;
