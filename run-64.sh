@@ -1,5 +1,6 @@
 #!/bin/bash
 
+rm -rf toGround;
 mkdir -p toGround;
 
 demos_folder="demos/rng-0"

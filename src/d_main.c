@@ -186,7 +186,7 @@ void D_Display (void)
     boolean shoulddraw;
     shoulddraw = DG_ShouldDrawFrame();
 
-    if (nodrawers || shoulddraw)
+    if (nodrawers || !shoulddraw)
     	return;                    // for comparative timing / profiling
 		
     redrawsbar = false;
