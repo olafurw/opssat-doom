@@ -15,8 +15,12 @@ ifndef CC
 	CC=cc
 endif
 
+ifndef RANDVAL
+	RANDVAL=0
+endif
+
 LDFLAGS+=-Wl,--gc-sections
-CFLAGS+=-ggdb3 -Os -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
+CFLAGS+=-ggdb3 -Os -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE -DRANDVAL=$(RANDVAL)
 
 # check if static flag is set to YES
 ifeq ($(STATIC),YES)

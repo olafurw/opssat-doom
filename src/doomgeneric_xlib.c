@@ -1,6 +1,7 @@
 #include "doomkeys.h"
 
 #include "doomgeneric.h"
+#include "m_random.h"
 
 #include <ctype.h>
 #include <stdio.h>
@@ -202,6 +203,8 @@ void DG_SetWindowTitle(const char * title)
 
 int main(int argc, char **argv)
 {
+    M_AllocateRandom();
+
     doomgeneric_Create(argc, argv);
 
     for (int i = 0; ; i++)
@@ -209,6 +212,7 @@ int main(int argc, char **argv)
         doomgeneric_Tick();
     }
     
+    M_FreeRandom();
 
     return 0;
 }

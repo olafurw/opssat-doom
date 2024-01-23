@@ -2,6 +2,7 @@
 #include "m_argv.h"
 #include "doomgeneric.h"
 #include "g_game.h"
+#include "m_random.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
@@ -89,12 +90,16 @@ void DG_SetWindowTitle(const char * title)
 
 int main(int argc, char **argv)
 {
+    M_AllocateRandom();
+    
     doomgeneric_Create(argc, argv);
 
     while (1)
     {
         doomgeneric_Tick();
     }
+
+    M_FreeRandom();
 
     return 0;
 }
