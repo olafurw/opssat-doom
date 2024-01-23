@@ -16,7 +16,7 @@ void doomgeneric_Tick();
 
 //Implement below functions for your platform
 void DG_Init();
-boolean DG_ShouldDrawFrame();
+int DG_ShouldDrawFrame();
 void DG_DrawFrame();
 void DG_SleepMs(uint32_t ms);
 uint32_t DG_GetTicksMs();

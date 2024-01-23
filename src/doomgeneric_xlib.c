@@ -125,6 +125,10 @@ void DG_Init()
     s_Image = XCreateImage(s_Display, DefaultVisual(s_Display, s_Screen), depth, ZPixmap, 0, (char *)DG_ScreenBuffer, DOOMGENERIC_RESX, DOOMGENERIC_RESX, 32, 0);
 }
 
+int DG_ShouldDrawFrame()
+{
+    return 1;
+}
 
 void DG_DrawFrame()
 {

@@ -141,6 +141,11 @@ void DG_Init()
 	memset(s_KeyQueue, 0, KEYQUEUE_SIZE * sizeof(unsigned short));
 }
 
+int DG_ShouldDrawFrame()
+{
+    return 1;
+}
+
 void DG_DrawFrame()
 {
 	MSG msg;
