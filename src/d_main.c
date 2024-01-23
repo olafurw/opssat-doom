@@ -32,6 +32,7 @@
 
 #include "dstrings.h"
 #include "doomfeatures.h"
+#include "doomgeneric.h"
 #include "sounds.h"
 
 #include "d_iwad.h"
@@ -182,7 +183,10 @@ void D_Display (void)
     boolean			wipe;
     boolean			redrawsbar;
 
-    if (nodrawers)
+    boolean shoulddraw;
+    shoulddraw = DG_ShouldDrawFrame();
+
+    if (nodrawers || shoulddraw)
     	return;                    // for comparative timing / profiling
 		
     redrawsbar = false;

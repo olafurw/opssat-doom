@@ -55,6 +55,14 @@ void WriteFrameToDisk()
     free(filename);
 }
 
+boolean DG_ShouldDrawFrame()
+{
+    int current_killcount;
+    current_killcount = G_GetPlayerKillCount();
+
+    return current_killcount != killcount;
+}
+
 void DG_DrawFrame()
 {
     int current_killcount;
@@ -75,7 +83,7 @@ void DG_SleepMs(uint32_t ms)
 
 uint32_t DG_GetTicksMs()
 {
-    ticks += 100;
+    ticks += 30;
     return ticks;
 }
 
