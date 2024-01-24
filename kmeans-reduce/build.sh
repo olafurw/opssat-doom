@@ -1,0 +1,1 @@
+c++ kmeans_palette_reduce.cpp -Wall -O3 -o kmeans-reduce;

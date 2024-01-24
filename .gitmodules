@@ -1,6 +1,6 @@
 [submodule "deutex"]
 	path = deutex
 	url = https://github.com/Doom-Utils/deutex
-[submodule "image-resizer"]
-	path = image-resizer
-	url = https://github.com/georgeslabreche/image-resizer
+[submodule "dkm"]
+	path = dkm
+	url = https://github.com/genbattle/dkm.git

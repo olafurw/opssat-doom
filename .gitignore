@@ -3,6 +3,7 @@ toGround/
 opssat-doom.map
 opssat-doom-xlib.map
 image-resample-test/image-test
+kmeans-reduce/kmeans-reduce
 src/build/
 src/bin/
 demos/doom-earth.wad
