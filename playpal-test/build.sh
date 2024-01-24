@@ -1,0 +1,1 @@
+c++ read.cpp -o read
