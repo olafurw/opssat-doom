@@ -288,6 +288,12 @@ int closest_color(unsigned char r, unsigned char g, unsigned char b)
 
 int main(int argc, char *argv [])
 {
+    if (argc < 3)
+    {
+        printf("Usage: %s <input_image> <output_image>\n", argv[0]);
+        return 1;
+    }
+
     int x,y,n;
     unsigned char *data = stbi_load(argv[1], &x, &y, &n, 0);
 
