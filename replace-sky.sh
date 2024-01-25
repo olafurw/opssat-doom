@@ -11,36 +11,20 @@ if [ ! -f "$1" ]; then
 fi
 
 # Init repo
-git submodule init;
-git submodule update;
-sudo apt install -y pkg-config;
-
-# Remove old files
-rm -rf extract/;
-rm demos/doom-earth.wad;
+./init-repo.sh;
 
 # Build resizer
 pushd image-resizer-bmp;
-make;
+./build.sh;
 popd;
 
 # Build deutex
-pushd deutex;
-./bootstrap;
-./configure
-make;
-popd;
+./build-deutex.sh;
 
-# Extract the data from the wad
-mkdir extract;
-pushd extract;
-../deutex/src/deutex -doom ../demos/ -xtract;
-popd;
+./wad-extract.sh;
 
 # Resize the image
 ./image-resizer-bmp/resize -i "$1" -x 256 -y 128 -c 3 -o extract/patches/sky1.bmp;
 
 # Rebuild the wad
-pushd extract;
-../deutex/src/deutex -doom ../demos/ -iwad -make ../demos/doom-earth.wad;
-popd;
+./wad-pack.sh;
