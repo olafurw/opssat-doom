@@ -1,0 +1,1 @@
+./src/bin/opssat-doom-xlib -iwad demos/doom-earth.wad

@@ -1,1 +1,1 @@
-c++ read.cpp -o read
+c++ read.cpp -o read;

@@ -10,21 +10,21 @@ if [ ! -f "$1" ]; then
     exit 1
 fi
 
-# Init repo
-./init-repo.sh;
-
-# Build resizer
-pushd image-resizer-bmp;
-./build.sh;
-popd;
-
-# Build deutex
-./build-deutex.sh;
-
+# Extract the wad
 ./wad-extract.sh;
 
+# kmeans reduce the image
+pushd kmeans-reduce;
+./extract-pixels.sh "$1";
+popd;
+
+# Create a new playpal file
+pushd playpal-test;
+./run.sh;
+popd;
+
 # Resize the image
-./image-resizer-bmp/resize -i "$1" -x 256 -y 128 -c 3 -o extract/patches/sky1.bmp;
+./image-resizer-bmp/resize -i kmeans.bmp -x 256 -y 128 -c 3 -o extract/patches/sky1.bmp;
 
 # Rebuild the wad
 ./wad-pack.sh;

@@ -28,6 +28,8 @@ void denormalize(const std::array<float, 3>& normalized_pixel, unsigned char* pi
   pixel[0] = static_cast<unsigned char>(std::min(255.0f, normalized_pixel[0] * 255.0f));
   pixel[1] = static_cast<unsigned char>(std::min(255.0f, normalized_pixel[1] * 255.0f));
   pixel[2] = static_cast<unsigned char>(std::min(255.0f, normalized_pixel[2] * 255.0f));
+
+  std::cout << static_cast<int>(pixel[0]) << " " << static_cast<int>(pixel[1]) << " " << static_cast<int>(pixel[2]) << std::endl;
 }
 
 // Main function

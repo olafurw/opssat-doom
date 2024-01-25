@@ -4,5 +4,5 @@ rm -rf extract/;
 # Extract the data from the wad
 mkdir extract;
 pushd extract;
-../deutex/src/deutex -doom ../demos/ -xtract;
+../deutex/src/deutex -doom ../demos/ -bmp -xtract;
 popd;
