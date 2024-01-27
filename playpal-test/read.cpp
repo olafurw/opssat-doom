@@ -26,9 +26,11 @@ int main(int argc, char* argv[])
 
     std::ofstream outputFile("new_playpal.lmp", std::ios::binary);
 
+    int new_buffer = 0;
     for (int i = 0; i < buffer.size(); i++) {
-        if (i < 256) {
-            outputFile.write(reinterpret_cast<const char*>(&new_playpal_buffer[i]), 1);
+        if (i >= 256 * 3 && i < 512 * 3) {
+            outputFile.write(reinterpret_cast<const char*>(&new_playpal_buffer[new_buffer]), 1);
+            new_buffer++;
         } else {
             outputFile.write(reinterpret_cast<const char*>(&buffer[i]), 1);
         }
