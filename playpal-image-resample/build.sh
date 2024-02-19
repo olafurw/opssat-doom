@@ -1,0 +1,1 @@
+c++ resize.cpp playpal.cpp resample.cpp main.cpp -Wall -std=c++14 -O3 -o resample
