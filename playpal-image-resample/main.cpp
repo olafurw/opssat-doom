@@ -1,10 +1,6 @@
-// input is image to resize.
-
-// resize image and turn it into 256 colors.
-
-// find the 8 colors that are furthest away from
-// an existing playpal color.
-// replace 8 colors in the playpal with the new colors.
+// waage todo
+// regenerate the COLORMAP data also
+// add the other PLAYPAL palettes to the output file (the different shades)
 
 #include <array>
 #include <vector>
