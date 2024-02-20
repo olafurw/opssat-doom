@@ -51,11 +51,12 @@ void WriteFrameToDisk()
 {
     char* filename = (char*)malloc(37 * sizeof(char));
     sprintf(filename, "toGround/run-%06d/frame-%06d.jpg", runid, frames);
+
     stbi_write_jpg(filename, DOOMGENERIC_RESX, DOOMGENERIC_RESY, 4, DG_ScreenBuffer, 100);
     free(filename);
 }
 
-boolean DG_ShouldDrawFrame()
+int DG_ShouldDrawFrame()
 {
     int current_killcount;
     current_killcount = G_GetPlayerKillCount();

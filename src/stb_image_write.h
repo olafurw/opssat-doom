@@ -1526,9 +1526,9 @@ static int stbi_write_jpg_core(stbi__write_context *s, int width, int height, in
       int bitBuf=0, bitCnt=0;
       // comp == 2 is grey+alpha (alpha is ignored)
       int ofsG = comp > 2 ? 1 : 0, ofsB = comp > 2 ? 2 : 0;
-      const unsigned char *dataR = (const unsigned char *)data;
-      const unsigned char *dataG = dataR + ofsG;
-      const unsigned char *dataB = dataR + ofsB;
+      const unsigned char *dataB = (const unsigned char *)data;
+      const unsigned char *dataG = dataB + ofsG;
+      const unsigned char *dataR = dataB + ofsB;
       int x, y, pos;
       if(subsample) {
          for(y = 0; y < height; y += 16) {
