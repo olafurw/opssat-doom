@@ -2,9 +2,6 @@
 toGround/
 opssat-doom.map
 opssat-doom-xlib.map
-image-resample-test/image-test
-kmeans-reduce/kmeans-reduce
-playpal-test/read
 src/build/
 src/bin/
 demos/doom-earth.wad
@@ -13,3 +10,7 @@ deploy/
 backup/
 extract/
 smartcam/config.dev.ini
+
+playpal-image-resample/resample
+playpal-image-resample/sky1.bmp
+playpal-image-resample/playpal.lmp
