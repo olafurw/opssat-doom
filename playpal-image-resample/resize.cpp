@@ -1,7 +1,7 @@
 #include "resize.h"
 
-#include "../image-resizer-bmp/src/stb_image.h"
-#include "../image-resizer-bmp/src/stb_image_resize2.h"
+#include "stb/stb_image.h"
+#include "stb/stb_image_resize2.h"
 
 std::vector<unsigned char> resize(const std::string& filename, int new_width, int new_height)
 {

@@ -29,8 +29,25 @@ closest_color_result closest_color(unsigned char r, unsigned char g, unsigned ch
     return result;
 }
 
+void update_color(int index, unsigned char r, unsigned char g, unsigned char b)
+{
+    if (index > 255)
+    {
+        return;
+    }
+
+    color_index[index][0] = r;
+    color_index[index][1] = g;
+    color_index[index][2] = b;
+}
+
 void update_color_with_average(int index, const std::vector<std::array<unsigned char, 3>>& colors)
 {
+    if (index > 255)
+    {
+        return;
+    }
+    
     int r = 0;
     int g = 0;
     int b = 0;

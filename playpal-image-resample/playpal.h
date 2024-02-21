@@ -15,6 +15,8 @@ struct closest_color_result
 };
 
 closest_color_result closest_color(unsigned char r, unsigned char g, unsigned char b);
+
+void update_color(int index, unsigned char r, unsigned char g, unsigned char b);
 void update_color_with_average(int index, const std::vector<std::array<unsigned char, 3>>& colors);
 
 // doom playpal color index

@@ -21,6 +21,35 @@
 #include "resample.h"
 #include "playpal.h"
 
+void update_color_index(const std::set<std::array<unsigned char, 3>>& colors)
+{
+    std::unordered_map<int, std::vector<std::array<unsigned char, 3>>> closest_colors;
+
+    for (const auto& color : colors)
+    {
+        const auto closest = closest_color(color[0], color[1], color[2]);
+        closest_colors[closest.index].push_back(color);
+        if (closest.distance > 100)
+        {
+            closest_colors[closest.index].push_back({
+                closest.r, closest.g, closest.b
+            });
+        }
+    }
+
+    for (const auto& closest : closest_colors)
+    {
+        // If you only have the main color then there is no need to average
+        // Colors index 0, 4 and 247 are special
+        if (closest.second.size() < 2 || closest.first == 0 || closest.first == 4 || closest.first == 247)
+        {
+            continue;
+        }
+        
+        update_color_with_average(closest.first, closest.second);
+    }
+}
+
 int main(int argc, char* argv[])
 {
     if (argc < 2)
@@ -41,7 +70,6 @@ int main(int argc, char* argv[])
     );
 
     std::set<std::array<unsigned char, 3>> colors;
-
     for (int i = 0; i < width * height * channels; i += channels)
     {
         colors.insert({ 
@@ -51,33 +79,12 @@ int main(int argc, char* argv[])
         });
     }
 
-    std::unordered_map<int, std::vector<std::array<unsigned char, 3>>> closest_colors;
-
-    for (const auto& color : colors)
-    {
-        const auto closest = closest_color(color[0], color[1], color[2]);
-        closest_colors[closest.index].push_back(color);
-        if (closest.distance > 600)
-        {
-            closest_colors[closest.index].push_back({
-                closest.r, closest.g, closest.b
-            });
-        }
-    }
-
-    for (const auto& closest : closest_colors)
-    {
-        // If you only have the main color then there is no need to average
-        // Colors index 0, 4 and 247 are special
-        if (closest.second.size() < 2 || closest.first == 0 || closest.first == 4 || closest.first == 247)
-        {
-            continue;
-        }
-        
-        update_color_with_average(closest.first, closest.second);
-    }
-
     stbi_write_bmp("sky1.bmp", width, height, channels, &resampled_data[0]);
+
+    update_color_index(colors);
+    update_color_index(colors);
+    update_color_index(colors);
+    update_color_index(colors);
 
     std::ofstream new_playpal("playpal.lmp", std::ios::binary);
     for (int i = 0; i < 256; i++)
