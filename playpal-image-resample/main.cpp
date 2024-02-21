@@ -1,6 +1,7 @@
-// waage todo
-// regenerate the COLORMAP data also
-// add the other PLAYPAL palettes to the output file (the different shades)
+// waage todo:
+// - add the other PLAYPAL palettes to the output file (the different shades)
+// - try a version where the the biggest outlier colors replace colors in the PLAYPAL palette, the rest can use the closest color
+// - try with different images
 
 #include <array>
 #include <vector>
