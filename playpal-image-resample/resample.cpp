@@ -1,7 +1,7 @@
 #include "resample.h"
 
-#include "../dkm/include/dkm.hpp"
-#include "../dkm/include/dkm_utils.hpp"
+#include "dkm/dkm.hpp"
+#include "dkm/dkm_utils.hpp"
 
 #include <array>
 
@@ -31,7 +31,8 @@ std::vector<unsigned char> resample(std::vector<unsigned char> data, int width, 
     }
 
     // Perform k-means clustering with dkm
-    auto result = dkm::kmeans_lloyd(pixels, 256);
+    dkm::clustering_parameters<float> params(256);
+    auto result = dkm::kmeans_lloyd(pixels, params);
     const auto& means = std::get<0>(result);
 
     // Write the centroid color values directly to the resized_data array
