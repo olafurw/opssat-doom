@@ -1,10 +1,6 @@
 set -e;
 
-pushd deutex;
-./bootstrap;
-./configure;
-make;
-popd;
+./build-deutex.sh;
 
 pushd playpal-image-resample;
 ./build-32.sh;
