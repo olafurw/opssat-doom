@@ -13,18 +13,10 @@ fi
 # Extract the wad
 ./wad-extract.sh;
 
-# kmeans reduce the image
-pushd kmeans-reduce;
-./extract-pixels.sh "$1";
+# reduce the image to 256 colors and generate a new playpal from it
+pushd playpal-image-resample;
+./resample ../"$1" && cp playpal.lmp ../extract/lumps/playpal.lmp && cp sky1.bmp ../extract/patches/sky1.bmp;
 popd;
-
-# Create a new playpal file
-pushd playpal-test;
-./run.sh;
-popd;
-
-# Resize the image
-./image-resizer-bmp/resize -i kmeans.bmp -x 256 -y 128 -c 3 -o extract/patches/sky1.bmp;
 
 # Rebuild the wad
 ./wad-pack.sh;
