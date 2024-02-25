@@ -23,18 +23,33 @@ docker build -t sepp-builder-image .
 Then inside that image, these commands need to be run.
 
 ```
+cd home/user/;
 git clone https://github.com/olafurw/opssat-doom.git
 cd opssat-doom/
-./build-64.sh
-./start_exp272.sh
+
+# To install packages and init submodules.
+./init-repo.sh
+
+# Builds deutex, image resample and doom
+./build-all-32.sh
+
+# Replaces the doom sky with the given image
+# also changes the color palette to fit
+# generates a new wad demos/doom-earth.wad
+./replace-sky.sh some-image.png
+
+# Runs the demo files, diffs them and outputs everything to "toGround"
+./run-32.sh
 ```
 
 ### How We Got Here
+
 A vision brewing for 13 years:
+
 - **2011**: [Georges](https://georges.fyi) stumbles on what would become [his favorite SMBC comic](https://www.smbc-comics.com/comic/2011-02-17), thank you [Zach](https://mastodon.social/@ZachWeinersmith)!
 - **2020**: Georges joins the [OPS-SAT-1](https://www.esa.int/Enabling_Support/Operations/OPS-SAT) mission control team as a Spacecraft Operations Engineer at the European Space Agency (ESA). Visions of running DOOM on a space computer intensifies.
 - **2023**: The reality of a 2024 end-of-mission by atmospheric re-entry starts to hit hard. The spacecraft's impending doom (see what I did there?) is a wake-up call to get serious about running DOOM in space before it's too late.
-- **2024**: Georges has been asking around for help with compiling and deploying DOOM for the spacecraft's ARM32 onboard computer but isn't making progress. One night, instead of sleeping, he is trapped doomscrolling (ha!) on Instagram and stumbles on a reel from [Ólafur](https://mastodon.social/@olafurw)'s "Doom on GitHub Actions" talk at NDC TechTown 2023: [*Playing Video Games One Frame at a Time*](https://www.youtube.com/watch?v=Z1Nf8KcG4ro). After sliding into the DM, the rest is history.
+- **2024**: Georges has been asking around for help with compiling and deploying DOOM for the spacecraft's ARM32 onboard computer but isn't making progress. One night, instead of sleeping, he is trapped doomscrolling (ha!) on Instagram and stumbles on a reel from [Ólafur](https://mastodon.social/@olafurw)'s "Doom on GitHub Actions" talk at NDC TechTown 2023: [_Playing Video Games One Frame at a Time_](https://www.youtube.com/watch?v=Z1Nf8KcG4ro). After sliding into the DM, the rest is history.
 
 <br>
 <div align="center">
@@ -44,4 +59,3 @@ A vision brewing for 13 years:
 ### Source Ports
 
 Based on [doomgeneric](https://github.com/ozkl/doomgeneric)
-
