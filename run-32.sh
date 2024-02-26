@@ -12,7 +12,7 @@ statdump_filepath=toGround/run-32.txt
 runid=1
 for demo in $demos_shareware
 do
-    qemu-arm src/bin/opssat-doom -nosound -nomusic -nosfx -runid $runid -longtics -iwad demos/doom.wad -cdemo $demos_folder/$demo -statdump ${statdump_filepath} >> toGround/doom.log 2>&1;
+    qemu-arm src/bin/opssat-doom -nosound -nomusic -nosfx -runid $runid -longtics -iwad demos/doom-earth.wad -cdemo $demos_folder/$demo -statdump ${statdump_filepath} >> toGround/doom.log 2>&1;
     if [ -f "${statdump_filepath}" ]; then
         if diff ${statdump_filepath} ${demos_folder}/${demo}.txt; then
             result="OK"
