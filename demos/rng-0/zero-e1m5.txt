@@ -8,5 +8,5 @@ Player 1 (Green):
 	Kills: 23 / 24 (95%)
 	Items: 17 / 29 (58%)
 	Secrets: 5 / 9 (55%)
-	RNG Calls: 102911
+	RNG Calls: 102591
 

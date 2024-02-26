@@ -18,7 +18,7 @@
 static int ticks = 0;
 static int frames = 0;
 static int runid = 0;
-static int killcount = 0;
+//static int killcount = 0;
 
 void DG_Init()
 {
@@ -47,10 +47,10 @@ void DG_Init()
     }
 }
 
-void WriteFrameToDisk()
+void WriteFrameToDisk(int id, int frameid)
 {
     char* filename = (char*)malloc(37 * sizeof(char));
-    sprintf(filename, "toGround/run-%06d/frame-%06d.jpg", runid, frames);
+    sprintf(filename, "toGround/run-%06d/frame-%06d.jpg", id, frameid);
 
     stbi_write_jpg(filename, DOOMGENERIC_RESX, DOOMGENERIC_RESY, 4, DG_ScreenBuffer, 100);
     free(filename);
@@ -58,24 +58,19 @@ void WriteFrameToDisk()
 
 int DG_ShouldDrawFrame()
 {
-    int current_killcount;
-    current_killcount = G_GetPlayerKillCount();
-
-    return current_killcount != killcount;
+    frames++;
+    return (runid == 1 && frames == 22)
+        || (runid == 2 && frames == 793)
+        || (runid == 3 && frames == 2182)
+        || (runid == 4 && frames == 1234)
+        || (runid == 5 && frames == 570)
+        || (runid == 6 && frames == 503)
+        || (runid == 7 && frames == 2790);
 }
 
 void DG_DrawFrame()
 {
-    int current_killcount;
-    current_killcount = G_GetPlayerKillCount();
-
-    if (current_killcount != killcount)
-    {
-        killcount = current_killcount;
-        WriteFrameToDisk ();
-    }
-
-    frames++;
+    WriteFrameToDisk(runid, frames);
 }
 
 void DG_SleepMs(uint32_t ms)
