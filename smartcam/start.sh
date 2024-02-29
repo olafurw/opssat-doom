@@ -1,43 +1,56 @@
 #!/bin/sh
 
-# function to show usage
 show_usage() {
-  echo "Usage: $0 -i <image_filepath> -w <wad_filepath>"
+  echo "Usage: $0 -i <image_file> [other options]"
+  # You can list other recognized options here
+  exit 1
 }
 
-# check if the number of arguments is correct
-if [ "$#" -ne 4 ]; then
-  show_usage
-  exit 1
-fi
+# Initialize image_file to an empty string
+image_file=""
 
 # parsing arguments
-while getopts ":i:w:" opt; do
+while getopts ":i:" opt; do
   case $opt in
     i) image_file="$OPTARG"
     ;;
-    w) wad_file="$OPTARG"
-    ;;
-    \?) show_usage
-      exit 1
+    *) # Catch all other options and do nothing
+       # Optionally, you could log these if needed
+       # echo "Ignoring unrecognized option: $OPTARG"
     ;;
   esac
 done
 
-# check if both -i and -w arguments were supplied
-if [ -z "$image_file" ] || [ -z "$wad_file" ]; then
+# check if -i has been supplied and is not empty
+if [ -z "$image_file" ] ; then
   show_usage
+fi
+
+# check if given image file exists
+if [ ! -f "$image_file" ]; then
+  echo "Error: The image file does not exist."
   exit 1
 fi
 
-# check if both files exist
-if [ ! -f "$image_file" ] || [ ! -f "$wad_file" ]; then
-  echo "Error: One or both files do not exist."
+# Save the current directory path
+sc_dir=$(pwd)
+
+# the DOOM experiment directory path
+exp_dir="/home/exp272/"
+
+# Check if the directory exists
+if [ -d "$exp_dir" ]; then
+  # If the directory exists, cd into it and run the experiment
+  cd "$exp_dir" || exit 1
+  ./start_exp272.sh "$image_file" > /dev/null 2>&1
+
+  # Return to the original directory
+  cd "$sc_dir" || exit 1
+else
+  # If the directory does not exist, print an error message
+  echo "DOOM is not installed!"
   exit 1
 fi
-
-# todo: run the DOOM experiment
-# ...
 
 # if successful, print JSON string
 echo '{"doom": 1}'

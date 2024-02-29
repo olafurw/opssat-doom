@@ -3,8 +3,14 @@
 echo "Installing..."
 chown -R exp272:exp272 /home/exp272
 chmod -R 770 /home/exp272
-chmod +x /home/exp272/src/opssat-doom
+chmod +x /home/exp272/src/bin/opssat-doom
+chmod +x /home/exp272/playpal-image-resample/resample
+chmod +x /home/exp272/deutex/src/deutex
+chmod +x /home/exp272/replace-sky.sh
+chmod +x /home/exp272/wad-extract.sh
+chmod +x /home/exp272/wad-pack.sh
 chmod +x /home/exp272/start_exp272.sh
+chmod +x /home/exp272/stop_exp272.sh
 chmod +x /home/exp272/smartcam/start.sh
 
 # Backup the SmartCam config
