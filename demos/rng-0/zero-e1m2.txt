@@ -2,11 +2,11 @@
 E1M2
 ===========================================
 
-Time: 1:34 (par: 1:15)
+Time: 2:31 (par: 1:15)
 
 Player 1 (Green):
-	Kills: 15 / 20 (75%)
+	Kills: 14 / 20 (70%)
 	Items: 5 / 42 (11%)
 	Secrets: 0 / 6 (0%)
-	RNG Calls: 34751
+	RNG Calls: 59744
 

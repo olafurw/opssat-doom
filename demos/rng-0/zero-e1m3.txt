@@ -2,11 +2,11 @@
 E1M3 / MAP03
 ===========================================
 
-Time: 2:25 (par: 2:00)
+Time: 2:03 (par: 2:00)
 
 Player 1 (Green):
-	Kills: 25 / 34 (73%)
-	Items: 25 / 87 (28%)
+	Kills: 20 / 34 (58%)
+	Items: 15 / 87 (17%)
 	Secrets: 0 / 7 (0%)
-	RNG Calls: 89569
+	RNG Calls: 79200
 

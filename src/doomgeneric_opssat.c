@@ -59,13 +59,13 @@ void WriteFrameToDisk(int id, int frameid)
 int DG_ShouldDrawFrame()
 {
     frames++;
-    return (runid == 1 && frames == 22)
-        || (runid == 2 && frames == 793)
-        || (runid == 3 && frames == 2182)
+    return (runid == 1 && frames == 1911)
+        || (runid == 2 && frames == 2113)
+        || (runid == 3 && frames == 1624)
         || (runid == 4 && frames == 1234)
-        || (runid == 5 && frames == 570)
-        || (runid == 6 && frames == 503)
-        || (runid == 7 && frames == 2790);
+        || (runid == 5 && frames == 6560)
+        || (runid == 6 && frames == 24695)
+        || (runid == 7 && frames == 2320);
 }
 
 void DG_DrawFrame()

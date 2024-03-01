@@ -2,11 +2,11 @@
 E1M6
 ===========================================
 
-Time: 7:06 (par: 3:00)
+Time: 12:17 (par: 3:00)
 
 Player 1 (Green):
-	Kills: 45 / 50 (90%)
-	Items: 72 / 99 (72%)
-	Secrets: 2 / 4 (50%)
-	RNG Calls: 200506
+	Kills: 49 / 50 (98%)
+	Items: 62 / 99 (62%)
+	Secrets: 1 / 4 (25%)
+	RNG Calls: 359274
 
