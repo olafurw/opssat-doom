@@ -83,7 +83,7 @@ A vision brewing for 13 years:
 
 ### ASCII Logo
 
-The ASCII art that appears on the spacecraft's eLinux terminal output after installing DOOM is a slightly modified version of the one developed by [Frans P. de Vries (a.k.a. Xymph)](https://doomwiki.org/wiki/Frans_P._de_Vries_(Xymph)). The Spacecraft's terminal outputs get logged and downlinked from space back to the [ESA SMILE ground station](https://www.esa.int/Enabling_Support/Operations/Want_to_SMILE) at ESOC-1 so it's very much noticed and appreciated by the mission control team.
+The ASCII art that appears on the spacecraft's eLinux terminal output after installing DOOM is a slightly modified version of the one developed by [Frans P. de Vries (a.k.a. Xymph)](https://doomwiki.org/wiki/Frans_P._de_Vries_(Xymph)). The Spacecraft's terminal outputs get logged and downlinked from space back to the [ESA SMILE ground station](https://www.esa.int/Enabling_Support/Operations/Want_to_SMILE) at ESOC-1 so the ASCII logo is very much noticed and appreciated by the mission control team.
 
 ```sh
 root@sepp:~# opkg install exp272_2.0_sepp_em.ipk
