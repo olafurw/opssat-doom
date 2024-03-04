@@ -26,6 +26,10 @@ if [ -z "$image_file" ] ; then
   show_usage
 fi
 
+# need the full image file path of the image for uderlying scripts
+# smart cam image files are written in /home/exp1000/
+image_file=/home/exp1000/$image_file
+
 # check if given image file exists
 if [ ! -f "$image_file" ]; then
   echo "Error: The image file does not exist."
