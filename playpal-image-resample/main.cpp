@@ -58,16 +58,22 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    std::cout << "playpal-image-resample starting..." << std::endl;
+
     const std::string input_filename = argv[1];
 
     int width = 256;
     int height = 128;
     int channels = 3;
 
+    std::cout << "resampling:" << std::endl;
+
     const auto resampled_data = resample(
         resize(input_filename, width, height), 
         width, height, channels
     );
+
+    std::cout << "- updating colors." << std::endl;
 
     std::set<std::array<unsigned char, 3>> colors;
     for (int i = 0; i < width * height * channels; i += channels)
@@ -79,12 +85,18 @@ int main(int argc, char* argv[])
         });
     }
 
+    std::cout << "writing 'sky1.bmp'" << std::endl;
+
     stbi_write_bmp("sky1.bmp", width, height, channels, &resampled_data[0]);
+
+    std::cout << "running color adjustment passes." << std::endl;
 
     update_color_index(colors);
     update_color_index(colors);
     update_color_index(colors);
     update_color_index(colors);
+
+    std::cout << "writing 'playpal.lmp'" << std::endl;
 
     std::ofstream new_playpal("playpal.lmp", std::ios::binary);
     for (int i = 0; i < 256; i++)
@@ -94,6 +106,8 @@ int main(int argc, char* argv[])
         new_playpal.write((char*)&color_index[i][2], 1);
     }
     new_playpal.close();
+
+    std::cout << "done." << std::endl;
 
     return 0;
 }

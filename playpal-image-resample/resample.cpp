@@ -4,6 +4,7 @@
 #include "dkm/dkm_utils.hpp"
 
 #include <array>
+#include <iostream>
 
 std::array<float, 3> normalize(const unsigned char* pixel)
 {
@@ -30,10 +31,14 @@ std::vector<unsigned char> resample(std::vector<unsigned char> data, int width, 
         pixels.push_back(normalize(&data[i]));
     }
 
+    std::cout << "- running kmeans." << std::endl;
+
     // Perform k-means clustering with dkm
     dkm::clustering_parameters<float> params(256);
     auto result = dkm::kmeans_lloyd(pixels, params);
     const auto& means = std::get<0>(result);
+
+    std::cout << "- denormalizing." << std::endl;
 
     // Write the centroid color values directly to the resized_data array
     for (int i = 0; i < width * height * channels; i += channels)
