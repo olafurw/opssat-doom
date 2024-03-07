@@ -37,8 +37,7 @@ fi
 cd playpal-image-resample || exit 1
 
 # Reduce the image to 256 colors and generate a new playpal from it
-# FIXME: doesn't work when running with docker from the host machine, it just hangs
-$QEMU_CMD_PREFIX ./resample $1 && cp playpal.lmp ../extract/lumps/playpal.lmp && cp sky1.bmp ../extract/patches/sky1.bmp;
+$QEMU_CMD_PREFIX ./resample $img_path && cp playpal.lmp ../extract/lumps/playpal.lmp && cp sky1.bmp ../extract/patches/sky1.bmp;
 
 # Return to the original directory
 cd "$rs_dir" || exit 1
