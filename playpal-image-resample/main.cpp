@@ -71,6 +71,12 @@ int main(int argc, char* argv[])
         width, height, channels
     );
 
+    if (resampled_data.empty())
+    {
+        std::cerr << "resample failed." << std::endl;
+        return -1;
+    }
+
     std::cout << "- updating colors." << std::endl;
 
     std::set<std::array<unsigned char, 3>> colors;

@@ -19,6 +19,12 @@ std::vector<unsigned char> resize(const std::string& filename, int new_width, in
     unsigned char* original_data = stbi_load(filename.c_str(), &width, &height, &channels, 3);
     if (original_data == nullptr)
     {
+        if (stbi_failure_reason())
+        {
+            std::cerr << "image load failed: " << stbi_failure_reason() << std::endl;
+        }
+        
+        resized_data.clear();
         return resized_data;
     }
 
