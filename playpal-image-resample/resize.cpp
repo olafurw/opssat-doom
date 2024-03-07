@@ -3,18 +3,26 @@
 #include "stb/stb_image.h"
 #include "stb/stb_image_resize2.h"
 
+#include <iostream>
+
 std::vector<unsigned char> resize(const std::string& filename, int new_width, int new_height)
 {
+    std::cout << "resizing:" << std::endl;
+
     int width = 0;
     int height = 0;
     int channels = 0;
     std::vector<unsigned char> resized_data(new_width * new_height * 3);
+
+    std::cout << "- loading file." << std::endl;
 
     unsigned char* original_data = stbi_load(filename.c_str(), &width, &height, &channels, 3);
     if (original_data == nullptr)
     {
         return resized_data;
     }
+
+    std::cout << "- resizing." << std::endl;
 
     if (!stbir_resize_uint8_linear(
             original_data, width, height, 0,

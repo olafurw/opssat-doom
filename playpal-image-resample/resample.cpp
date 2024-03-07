@@ -24,6 +24,8 @@ void denormalize(const std::array<float, 3>& normalized_pixel, unsigned char* pi
 
 std::vector<unsigned char> resample(std::vector<unsigned char> data, int width, int height, int channels)
 {
+    std::cout << "resampling:" << std::endl;
+    
     // Prepare data for clustering (normalize pixel values)
     std::vector<std::array<float, 3>> pixels;
     for (int i = 0; i < width * height * channels; i += channels)

@@ -66,8 +66,6 @@ int main(int argc, char* argv[])
     int height = 128;
     int channels = 3;
 
-    std::cout << "resampling:" << std::endl;
-
     const auto resampled_data = resample(
         resize(input_filename, width, height), 
         width, height, channels
