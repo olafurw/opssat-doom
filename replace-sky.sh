@@ -25,6 +25,14 @@ fi
 # Save the current directory path
 rs_dir=$(pwd)
 
+# Image path
+img_path=$(readlink -f $1)
+if [ ! -f $img_path ]
+then
+    echo "File not found: $img_path";
+    exit 1;
+fi
+
 # Change to the new directory
 cd playpal-image-resample || exit 1
 
