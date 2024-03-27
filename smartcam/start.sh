@@ -1,10 +1,22 @@
 #!/bin/sh
 
+# the DOOM experiment directory path
+exp_dir="/home/exp272/"
+
+# function to write messages with a timestamp to a log file
+log() {
+  # echo the original message to the console
+  echo "$*"
+
+  # prefix each message with the current timestamp and write to the log file
+  echo "$(date '+%Y-%m-%d %H:%M:%S') - $*" >> "${exp_dir}run.log"
+}
+
 show_usage() {
-  echo "Usage: $0 -i <image_file> [other options]"
-  # You can list other recognized options here
+  log "Usage: $0 -i <image_file> [other options]"
   exit 1
 }
+
 
 # Initialize image_file to an empty string
 image_file=""
@@ -14,8 +26,8 @@ while getopts ":i:" opt; do
   case $opt in
     i) image_file="$OPTARG"
     ;;
-    *) # Catch all other options and do nothing
-       # Optionally, you could log these if needed
+    *) # catch all other options and do nothing
+       # optionally, you could log these if needed
        # echo "Ignoring unrecognized option: $OPTARG"
     ;;
   esac
@@ -28,33 +40,23 @@ fi
 
 # need the full image file path of the image for uderlying scripts
 # smart cam image files are written in /home/exp1000/
-image_file=/home/exp1000/$image_file
+image_file=$(readlink -f $image_file)
 
 # check if given image file exists
 if [ ! -f "$image_file" ]; then
-  echo "Error: The image file does not exist."
+  log "Error: the image file does not exist ${image_file}"
   exit 1
 fi
 
-# Save the current directory path
+# save the current directory path
 sc_dir=$(pwd)
 
-# the DOOM experiment directory path
-exp_dir="/home/exp272/"
+# cd into the DOOM directory and run the experiment
+cd "$exp_dir" || { log "Failed to change directory to ${exp_dir}"; exit 1; }
+./start_exp272.sh "$image_file" > /dev/null 2>&1
 
-# Check if the directory exists
-if [ -d "$exp_dir" ]; then
-  # If the directory exists, cd into it and run the experiment
-  cd "$exp_dir" || exit 1
-  ./start_exp272.sh "$image_file" > /dev/null 2>&1
-
-  # Return to the original directory
-  cd "$sc_dir" || exit 1
-else
-  # If the directory does not exist, print an error message
-  echo "DOOM is not installed!"
-  exit 1
-fi
+# return to the original directory
+cd "$sc_dir" || { log "Failed to return to ${sc_dir}"; exit 1; }
 
 # if successful, print JSON string
 echo '{"doom": 1}'
