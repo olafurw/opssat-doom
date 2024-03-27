@@ -2,13 +2,32 @@
 
 Experiment with the European Space Agency (ESA) to run DOOM in Space onboard the [OPS-SAT satellite](https://www.esa.int/Enabling_Support/Operations/OPS-SAT).
 
-### Events
+### Milestones
 
-**2023-12-28 18:16:36 (UTC)** — DOOM runs on OPS-SAT (initial demo checks).
+#### 2023-12-28 18:16:36 (UTC) — DOOM runs in space on OPS-SAT (initial demo checks).
 
 <div align="center">
-<img src="https://github.com/olafurw/opssat-doom/assets/103783/8b2ece4b-bb92-4694-9655-9debc2569c2e" alt="doom-demo-tests" width="600" />
-  </div>
+  <img src="https://github.com/olafurw/opssat-doom/assets/103783/8b2ece4b-bb92-4694-9655-9debc2569c2e" alt="doom-demo-tests" width="600" />
+</div>
+
+#### March 23, 2024 — DOOM runs in space and uses the pictures acquired by the spacecraft's onbard camera as its background images in the gameplay environment.
+
+Images captured by the onboard camera are automatically processed and integrated into the game as custom background scenes. This is achieved by updating the game's WAD file to include the acquired images prior to running DOOM. The WAD update and game execution occur immediately after each image capture, showcasing near real-time snapshots of Earth within the gameplay environment.
+
+<div align="center">
+  <table>
+    <tr>
+      <td><img src="./results/20240324114436/run-000001/frame-001920.jpg" /></td>
+      <td><img src="./results/20240324114436/run-000002/frame-000780.jpg" /></td>
+    </tr>
+    <tr>
+      <td><img src="./results/20240324114436/run-000003/frame-001911.jpg" /></td>
+      <td><img src="./results/20240324114436/run-000009/frame-002320.jpg" /></td>
+    </tr>
+  </table>
+</div>
+
+Explore the [results](./results) folder for more.
 
 ### Setup
 
@@ -83,7 +102,7 @@ A vision brewing for 13 years:
 
 ### ASCII Logo
 
-The ASCII art that appears on the spacecraft's eLinux terminal output after installing DOOM is a slightly modified version of the one developed by [Frans P. de Vries (a.k.a. Xymph)](https://doomwiki.org/wiki/Frans_P._de_Vries_(Xymph)). The Spacecraft's terminal outputs get logged and downlinked from space back to the [ESA SMILE ground station](https://www.esa.int/Enabling_Support/Operations/Want_to_SMILE) at ESOC-1 so the ASCII logo is very much noticed and appreciated by the mission control team.
+The ASCII art that appears on the spacecraft's eLinux terminal output after installing DOOM is a slightly modified version of the one developed by [Frans P. de Vries (a.k.a. Xymph)](https://doomwiki.org/wiki/Frans_P._de_Vries_(Xymph)). The Spacecraft's terminal outputs get logged and downlinked from space back to the [ESA SMILE ground station](https://www.esa.int/Enabling_Support/Operations/Want_to_SMILE) at ESOC-1 so the ASCII logo is very much noticed and appreciated by the mission control team. A sample log file downlinked from the spacecraft can be found [here](./results/20240319183842_78_s_install_exp272_DOOM_sh.log).
 
 ```sh
 root@sepp:~# opkg install exp272_2.0_sepp_em.ipk
@@ -116,4 +135,4 @@ Installing...
 
 ### Source Ports
 
-Based on [doomgeneric](https://github.com/ozkl/doomgeneric)
+Based on [doomgeneric](https://github.com/ozkl/doomgeneric).
