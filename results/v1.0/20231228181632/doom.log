@@ -1,0 +1,196 @@
+
+
+2023-12-28 18:16:32 Will OPS-SAT-1 run DOOM?
+
+                         Chocolate Doom 2.3.0
+Z_Init: Init zone memory allocation daemon. 
+zone memory: 0xb5ca0008, 1000000 allocated for zone
+Using /home/root/.chocolate-doom/ for configuration and saves
+V_Init: allocate screens.
+M_LoadDefaults: Load system defaults.
+saving config in /home/root/.chocolate-doom/default.cfg
+W_Init: Init WADfiles.
+ adding /home/exp272/demos/doom.wad
+ adding /home/exp272/demos/e1m7-607.lmp
+Playing demo /home/exp272/demos/e1m7-607.lmp.
+===========================================================================
+                            DOOM Shareware
+===========================================================================
+ Chocolate Doom is free software, covered by the GNU General Public
+ License.  There is NO warranty; not even for MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE. You are welcome to change and distribute
+ copies under certain conditions. See the source for more information.
+===========================================================================
+I_Init: Setting up machine state.
+NET_Init: Init network subsystem.
+M_Init: Init miscellaneous info.
+R_Init: Init DOOM refresh daemon - ...................
+P_Init: Init Playloop state.
+S_Init: Setting up sound.
+D_CheckNetGame: Checking network game status.
+startskill 2  deathmatch: 0  startmap: 1  startepisode: 1
+player 1 of 1 (1 nodes)
+Emulating the behavior of the 'Doom 1.9' executable.
+HU_Init: Setting up heads up display.
+ST_Init: Init status bar.
+External statistics registered.
+I_InitGraphics: Cannot run at specified mode: 320x200
+I_InitGraphics: Auto-adjusted to 256x200x8bpp.
+NOTE: Your video settings have been adjusted.  To disable this behavior,
+set autoadjust_video_settings to 0 in your configuration file.
+I_InitStretchTables: Generating lookup tables....
+Statistics captured for 1 level(s)
+
+
+2023-12-28 18:16:36 Will OPS-SAT-1 run DOOM?
+
+                         Chocolate Doom 2.3.0
+Z_Init: Init zone memory allocation daemon. 
+zone memory: 0xb5c68008, 1000000 allocated for zone
+Using /home/root/.chocolate-doom/ for configuration and saves
+V_Init: allocate screens.
+M_LoadDefaults: Load system defaults.
+saving config in /home/root/.chocolate-doom/default.cfg
+W_Init: Init WADfiles.
+ adding /home/exp272/demos/doom.wad
+ adding /home/exp272/demos/impfight.lmp
+Playing demo /home/exp272/demos/impfight.lmp.
+===========================================================================
+                            DOOM Shareware
+===========================================================================
+ Chocolate Doom is free software, covered by the GNU General Public
+ License.  There is NO warranty; not even for MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE. You are welcome to change and distribute
+ copies under certain conditions. See the source for more information.
+===========================================================================
+I_Init: Setting up machine state.
+NET_Init: Init network subsystem.
+M_Init: Init miscellaneous info.
+R_Init: Init DOOM refresh daemon - ...................
+P_Init: Init Playloop state.
+S_Init: Setting up sound.
+D_CheckNetGame: Checking network game status.
+startskill 2  deathmatch: 0  startmap: 1  startepisode: 1
+player 1 of 1 (1 nodes)
+Emulating the behavior of the 'Doom 1.9' executable.
+HU_Init: Setting up heads up display.
+ST_Init: Init status bar.
+External statistics registered.
+I_InitStretchTables: Generating lookup tables....
+Statistics captured for 1 level(s)
+
+
+2023-12-28 18:16:36 Will OPS-SAT-1 run DOOM?
+
+                         Chocolate Doom 2.3.0
+Z_Init: Init zone memory allocation daemon. 
+zone memory: 0xb5ca1008, 1000000 allocated for zone
+Using /home/root/.chocolate-doom/ for configuration and saves
+V_Init: allocate screens.
+M_LoadDefaults: Load system defaults.
+saving config in /home/root/.chocolate-doom/default.cfg
+W_Init: Init WADfiles.
+ adding /home/exp272/demos/doom.wad
+ adding /home/exp272/demos/m1-fast.lmp
+Playing demo /home/exp272/demos/m1-fast.lmp.
+===========================================================================
+                            DOOM Shareware
+===========================================================================
+ Chocolate Doom is free software, covered by the GNU General Public
+ License.  There is NO warranty; not even for MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE. You are welcome to change and distribute
+ copies under certain conditions. See the source for more information.
+===========================================================================
+I_Init: Setting up machine state.
+NET_Init: Init network subsystem.
+M_Init: Init miscellaneous info.
+R_Init: Init DOOM refresh daemon - ...................
+P_Init: Init Playloop state.
+S_Init: Setting up sound.
+D_CheckNetGame: Checking network game status.
+startskill 2  deathmatch: 0  startmap: 1  startepisode: 1
+player 1 of 1 (1 nodes)
+Emulating the behavior of the 'Doom 1.9' executable.
+HU_Init: Setting up heads up display.
+ST_Init: Init status bar.
+External statistics registered.
+I_InitStretchTables: Generating lookup tables....
+Statistics captured for 1 level(s)
+
+
+2023-12-28 18:16:37 Will OPS-SAT-1 run DOOM?
+
+                         Chocolate Doom 2.3.0
+Z_Init: Init zone memory allocation daemon. 
+zone memory: 0xb5bcc008, 1000000 allocated for zone
+Using /home/root/.chocolate-doom/ for configuration and saves
+V_Init: allocate screens.
+M_LoadDefaults: Load system defaults.
+saving config in /home/root/.chocolate-doom/default.cfg
+W_Init: Init WADfiles.
+ adding /home/exp272/demos/doom.wad
+ adding /home/exp272/demos/m1-normal.lmp
+Warning: Truncated 'm1-normal.lmp' lump name to 'M1-NORMA'.
+Playing demo /home/exp272/demos/m1-normal.lmp.
+===========================================================================
+                            DOOM Shareware
+===========================================================================
+ Chocolate Doom is free software, covered by the GNU General Public
+ License.  There is NO warranty; not even for MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE. You are welcome to change and distribute
+ copies under certain conditions. See the source for more information.
+===========================================================================
+I_Init: Setting up machine state.
+NET_Init: Init network subsystem.
+M_Init: Init miscellaneous info.
+R_Init: Init DOOM refresh daemon - ...................
+P_Init: Init Playloop state.
+S_Init: Setting up sound.
+D_CheckNetGame: Checking network game status.
+startskill 2  deathmatch: 0  startmap: 1  startepisode: 1
+player 1 of 1 (1 nodes)
+Emulating the behavior of the 'Doom 1.9' executable.
+HU_Init: Setting up heads up display.
+ST_Init: Init status bar.
+External statistics registered.
+I_InitStretchTables: Generating lookup tables....
+Statistics captured for 1 level(s)
+
+
+2023-12-28 18:16:38 Will OPS-SAT-1 run DOOM?
+
+                         Chocolate Doom 2.3.0
+Z_Init: Init zone memory allocation daemon. 
+zone memory: 0xb5bb5008, 1000000 allocated for zone
+Using /home/root/.chocolate-doom/ for configuration and saves
+V_Init: allocate screens.
+M_LoadDefaults: Load system defaults.
+saving config in /home/root/.chocolate-doom/default.cfg
+W_Init: Init WADfiles.
+ adding /home/exp272/demos/doom.wad
+ adding /home/exp272/demos/m1-simple.lmp
+Warning: Truncated 'm1-simple.lmp' lump name to 'M1-SIMPL'.
+Playing demo /home/exp272/demos/m1-simple.lmp.
+===========================================================================
+                            DOOM Shareware
+===========================================================================
+ Chocolate Doom is free software, covered by the GNU General Public
+ License.  There is NO warranty; not even for MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE. You are welcome to change and distribute
+ copies under certain conditions. See the source for more information.
+===========================================================================
+I_Init: Setting up machine state.
+NET_Init: Init network subsystem.
+M_Init: Init miscellaneous info.
+R_Init: Init DOOM refresh daemon - ...................
+P_Init: Init Playloop state.
+S_Init: Setting up sound.
+D_CheckNetGame: Checking network game status.
+startskill 2  deathmatch: 0  startmap: 1  startepisode: 1
+player 1 of 1 (1 nodes)
+Emulating the behavior of the 'Doom 1.9' executable.
+HU_Init: Setting up heads up display.
+ST_Init: Init status bar.
+External statistics registered.
+I_InitStretchTables: Generating lookup tables....
+Statistics captured for 1 level(s)
