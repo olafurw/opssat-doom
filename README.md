@@ -1,5 +1,14 @@
 # OPS-SAT DOOM
 
+### End of the road
+
+The [mission ended](https://www.esa.int/Enabling_Support/Operations/Mission_complete_for_ESA_s_OPS-SAT_flying_laboratory) on the 22nd of May 2024.    
+[Here is a link](https://georges.fyi/opssat/opssat-doom-media-coverage/) to the news coverage this project got.
+
+Thank you.
+
+### Overview
+
 Experiment with the European Space Agency (ESA) to run DOOM in Space onboard the [OPS-SAT satellite](https://www.esa.int/Enabling_Support/Operations/OPS-SAT).
 
 ### Milestones
